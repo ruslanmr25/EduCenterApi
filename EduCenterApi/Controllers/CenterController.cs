@@ -1,108 +1,69 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using EduCenterApi.Application.Abstractions.IRepositories;
+using EduCenterApi.Application.DTOs.CenterDtos;
+using EduCenterApi.Application.Pagination;
 using EduCenterApi.Domain.Entities;
-using EduCenterApi.Infrastructure.DatabaseContext;
+using Microsoft.AspNetCore.Mvc;
 
-namespace EduCenterApi.Controllers
+namespace EduCenterApi.Controllers;
+
+[Route("api/centers")]
+[ApiController]
+public class CenterController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class CenterController : ControllerBase
+    private readonly ICenterRepository _centerRepository;
+
+    public CenterController(ICenterRepository centerRepository)
     {
-        private readonly BaseContext _context;
-
-        public CenterController(BaseContext context)
-        {
-            _context = context;
-        }
-
-        // GET: api/Center
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Center>>> GetCenters()
-        {
-            return await _context.Centers.ToListAsync();
-        }
-
-        // GET: api/Center/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Center>> GetCenter(int id)
-        {
-            var center = await _context.Centers.FindAsync(id);
-
-            if (center == null)
-            {
-                return NotFound();
-            }
-
-            return center;
-        }
-
-        // PUT: api/Center/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutCenter(int id, Center center)
-        {
-            if (id != center.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(center).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CenterExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/Center
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Center>> PostCenter(Center center)
-        {
-            _context.Centers.Add(center);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetCenter", new { id = center.Id }, center);
-        }
-
-        // DELETE: api/Center/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCenter(int id)
-        {
-            var center = await _context.Centers.FindAsync(id);
-            if (center == null)
-            {
-                return NotFound();
-            }
-
-            _context.Centers.Remove(center);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool CenterExists(int id)
-        {
-            return _context.Centers.Any(e => e.Id == id);
-        }
+        _centerRepository = centerRepository;
     }
+
+    // GET: api/Center
+    [HttpGet]
+    public async Task<ActionResult<PagedResult<Center>>> Index()
+    {
+        return await _centerRepository.GetAllAsync(1, 40);
+    }
+
+    // GET: api/Center/5
+    [HttpGet("{id}")]
+    public async Task<ActionResult<Center?>> Show(int id)
+    {
+        return await _centerRepository.GetByIdAsync(id);
+    }
+
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> PutCenter(int id, Center center)
+    {
+
+
+        return NoContent();
+    }
+
+    // POST: api/Center
+    // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+    [HttpPost]
+    public async Task<IActionResult> Create(CreateCenterDto centerDto)
+    {
+
+        Center center = new Center
+        {
+            Name = centerDto.Name,
+            AdminId = centerDto.AdminId
+        };
+        await _centerRepository.AddAsync(center);
+
+        return NoContent();
+
+
+    }
+
+    // DELETE: api/Center/5
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteCenter(int id)
+    {
+        await _centerRepository.DeleteAsync(id);
+        return NoContent();
+    }
+
 }

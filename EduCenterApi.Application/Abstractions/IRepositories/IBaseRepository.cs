@@ -1,13 +1,15 @@
-﻿namespace EduCenterApi.Application.Abstractions.IRepositories;
+﻿using EduCenterApi.Application.Pagination;
 
-public interface IBaseRepository<T>
+namespace EduCenterApi.Application.Abstractions.IRepositories;
+
+
+public interface IBaseRepository<T> where T : class
 {
-    public  Task<List<T>> All();
-    public Task<T?> Find(int id);
+    public Task<PagedResult<T>> GetAllAsync(int page, int pageSize);
 
-    public Task Create(T entity);
-
-    public Task Update(int id,T entity);
-    public Task Delete(int id);
-
+    public ValueTask<T?> GetByIdAsync(int id);
+    public Task AddAsync(T entity);
+    public Task UpdateAsync(T entity);
+    public Task DeleteAsync(int id);
 }
+
