@@ -1,4 +1,5 @@
-﻿using EduCenterApi.Application.Abstractions.IRepositories;
+﻿using AutoMapper;
+using EduCenterApi.Application.Abstractions.IRepositories;
 using EduCenterApi.Application.DTOs.UserDtos;
 using EduCenterApi.Domain.Entities;
 using Microsoft.AspNetCore.Http;
@@ -13,9 +14,12 @@ public class UserController : ControllerBase
 
     protected readonly IUserRepository _userRepository;
 
-    public UserController(IUserRepository userRepository)
+    protected readonly IMapper _mapper;
+
+    public UserController(IUserRepository userRepository, IMapper mapper)
     {
         _userRepository = userRepository;
+        _mapper = mapper;
     }
 
 
@@ -29,15 +33,28 @@ public class UserController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create(CreateUserDto userDto)
     {
-        User user = new User
-        {
-            FullName = userDto.FullName,
-            Username = userDto.Username,
-            Password = userDto.Password,
-            RoleId = userDto.RoleId
-        };
+        User user =_mapper.Map<User>(userDto);
         await _userRepository.AddAsync(user);
-        return NoContent();
+        return Ok();
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Update(int id, UpdateUserDto userDto)
+    {
+        return Ok(userDto);
+        User user = _mapper.Map<User>(userDto);
+        user.Id = id;
+
+        await _userRepository.UpdateAsync(user);
+        return Ok();
+    }
+
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        await _userRepository.DeleteAsync(id);
+        return Ok();
     }
 
 
