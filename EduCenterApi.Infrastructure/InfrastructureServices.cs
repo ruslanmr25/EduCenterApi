@@ -1,6 +1,8 @@
 ﻿using EduCenterApi.Application.Abstractions.IRepositories;
+using EduCenterApi.Application.Abstractions.IValidators;
 using EduCenterApi.Infrastructure.DatabaseContext;
 using EduCenterApi.Infrastructure.Repositories;
+using EduCenterApi.Infrastructure.Validators;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -17,9 +19,13 @@ namespace EduCenterApi.Infrastructure
                 options.UseNpgsql(connectionString, x => x.MigrationsHistoryTable("migrations"));
             });
 
-
+            services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<ICenterRepository, CenterRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+
+
+
+            services.AddScoped<IUniqueValidator,UniqueValidator>();
             return services;
         }
 

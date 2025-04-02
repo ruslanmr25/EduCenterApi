@@ -1,27 +1,30 @@
-﻿using EduCenterApi.Application.Abstractions.IRepositories;
+﻿using AutoMapper;
+using EduCenterApi.Application.Abstractions.IRepositories;
 using EduCenterApi.Application.DTOs.CenterDtos;
 using EduCenterApi.Application.Pagination;
 using EduCenterApi.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EduCenterApi.Controllers;
+namespace EduCenterApi.Controllers.SuperAdmin;
 
-[Route("api/centers")]
+[Route("api/super-admin/centers")]
 [ApiController]
 public class CenterController : ControllerBase
 {
     private readonly ICenterRepository _centerRepository;
+    private readonly IMapper _mapper;
 
-    public CenterController(ICenterRepository centerRepository)
+    public CenterController(ICenterRepository centerRepository, IMapper mapper)
     {
         _centerRepository = centerRepository;
+        _mapper = mapper;
     }
 
     // GET: api/Center
     [HttpGet]
-    public async Task<ActionResult<PagedResult<Center>>> Index()
+    public async Task<ActionResult<PagedResult<Center>>> Index(int page = 1, int pageSize = 40)
     {
-        return await _centerRepository.GetAllAsync(1, 40);
+        return await _centerRepository.GetAllAsync(page, pageSize);
     }
 
     // GET: api/Center/5
@@ -33,11 +36,20 @@ public class CenterController : ControllerBase
 
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutCenter(int id, Center center)
+    public async Task<IActionResult> PutCenter(int id, UpdateCenterDto centerDto)
     {
+        Center? center = await _centerRepository.GetByIdAsync(id);
 
+        if (center == null)
+        {
+            return NotFound();
+        }
 
-        return NoContent();
+        _mapper.Map(centerDto, center);
+
+        await _centerRepository.UpdateAsync(center);
+
+        return Ok();
     }
 
     // POST: api/Center
@@ -45,12 +57,8 @@ public class CenterController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create(CreateCenterDto centerDto)
     {
-
-        Center center = new Center
-        {
-            Name = centerDto.Name,
-            AdminId = centerDto.AdminId
-        };
+        //check that only admin role can be added into dto
+        Center center = _mapper.Map<Center>(centerDto);
         await _centerRepository.AddAsync(center);
 
         return NoContent();

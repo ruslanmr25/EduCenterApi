@@ -1,3 +1,4 @@
+using EduCenterApi.Application;
 using EduCenterApi.Infrastructure;
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,9 +9,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen();
+
+builder.Services.RegisterApplicationServices();
 builder.Services.RegisterInfrastructureServces(
     connectionString: builder.Configuration.GetConnectionString("DefaultConnectionString")
     );
+
 
 var app = builder.Build();
 

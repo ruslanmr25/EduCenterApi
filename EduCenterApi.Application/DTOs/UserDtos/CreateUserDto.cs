@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
+using EduCenterApi.Application.Attributes;
 namespace EduCenterApi.Application.DTOs.UserDtos;
 
 public class CreateUserDto
@@ -9,6 +10,7 @@ public class CreateUserDto
     public required string FullName { get; set; }
 
     [Required(ErrorMessage = "Username talab qiladi")]
+    [Unique("username","users")]
     [StringLength(50, MinimumLength = 3, ErrorMessage = "Username must be between 3 and 50 characters.")]
     public required string Username { get; set; }
 
