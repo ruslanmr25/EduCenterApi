@@ -12,6 +12,10 @@ public class Center
     public string Name { get; set; }
     [Column("admin_id")]
     public int AdminId { get; set; }
-    public User Admin { get; set; }
+    public  User Admin { get; set; }
+
+
+    public virtual List<TeacherCenter> TeacherCenters { get; set; }
+
 
 }

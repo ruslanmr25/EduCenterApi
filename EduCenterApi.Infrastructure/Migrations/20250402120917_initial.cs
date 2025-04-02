@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
@@ -88,6 +89,32 @@ namespace EduCenterApi.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "teacher_center",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    center_id = table.Column<int>(type: "integer", nullable: false),
+                    teacher_id = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_teacher_center", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_teacher_center_centers_center_id",
+                        column: x => x.center_id,
+                        principalTable: "centers",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_teacher_center_users_teacher_id",
+                        column: x => x.teacher_id,
+                        principalTable: "users",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "groups",
                 columns: table => new
                 {
@@ -96,7 +123,12 @@ namespace EduCenterApi.Infrastructure.Migrations
                     name = table.Column<string>(type: "text", nullable: false),
                     teacher_id = table.Column<int>(type: "integer", nullable: false),
                     center_id = table.Column<int>(type: "integer", nullable: false),
-                    since_id = table.Column<int>(type: "integer", nullable: false)
+                    since_id = table.Column<int>(type: "integer", nullable: false),
+                    teacher_portion = table.Column<int>(type: "integer", nullable: false),
+                    price = table.Column<int>(type: "integer", nullable: false),
+                    begin_date = table.Column<DateOnly>(type: "date", nullable: false),
+                    is_completed = table.Column<bool>(type: "boolean", nullable: false),
+                    Days = table.Column<int[]>(type: "integer[]", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -126,10 +158,29 @@ namespace EduCenterApi.Infrastructure.Migrations
                 columns: new[] { "id", "name" },
                 values: new object[,]
                 {
-                    { 1, "Teacher" },
+                    { 1, "SuperAdmin" },
                     { 2, "CenterAdmin" },
-                    { 3, "SuperAdmin" }
+                    { 3, "Teacher" }
                 });
+
+            migrationBuilder.InsertData(
+                table: "users",
+                columns: new[] { "id", "full_name", "password", "role_id", "username" },
+                values: new object[,]
+                {
+                    { -1, "Center Admin", "123", 2, "ruslan" },
+                    { 1, "Teacher", "123", 3, "teacher" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "centers",
+                columns: new[] { "id", "admin_id", "name" },
+                values: new object[] { 1, -1, "Center 1" });
+
+            migrationBuilder.InsertData(
+                table: "sinces",
+                columns: new[] { "id", "center_id", "name" },
+                values: new object[] { 1, 1, "matematika" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_centers_admin_id",
@@ -157,6 +208,16 @@ namespace EduCenterApi.Infrastructure.Migrations
                 column: "center_id");
 
             migrationBuilder.CreateIndex(
+                name: "IX_teacher_center_center_id",
+                table: "teacher_center",
+                column: "center_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_teacher_center_teacher_id",
+                table: "teacher_center",
+                column: "teacher_id");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_users_role_id",
                 table: "users",
                 column: "role_id");
@@ -167,6 +228,9 @@ namespace EduCenterApi.Infrastructure.Migrations
         {
             migrationBuilder.DropTable(
                 name: "groups");
+
+            migrationBuilder.DropTable(
+                name: "teacher_center");
 
             migrationBuilder.DropTable(
                 name: "sinces");

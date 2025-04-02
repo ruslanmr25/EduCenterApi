@@ -6,21 +6,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EduCenterApi.Infrastructure.Repositories;
 
-public class ScienceRepository : BaseRepository<Since>, IScienceRepository
+public class GroupRepository : BaseRepository<Group>, IGroupRepository
 {
-    public ScienceRepository(BaseContext baseContext) : base(baseContext)
+    public GroupRepository(BaseContext baseContext) : base(baseContext)
     {
     }
 
 
 
-    public async Task<PagedResult<Since>> GetAllCenterScienceAsync(int centerId,int page, int pageSize)
+    public async Task<PagedResult<Group>> GetAllByCenterIdAsync(int centerId, int page, int pageSize)
     {
-        var query = _context.Set<Since>().AsQueryable();
-        query=query.Where(s=>s.CenterId == centerId);
-
+        var query = _context.Set<Group>().AsQueryable();
+        query = query.Where(x => x.CenterId == centerId);
         var totalCount = await query.CountAsync();
         var result = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
-        return new PagedResult<Since>(result, totalCount, page, pageSize);
+        return new PagedResult<Group>(result, totalCount, page, pageSize);
     }
 }
