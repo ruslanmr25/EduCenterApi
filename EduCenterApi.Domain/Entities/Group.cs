@@ -41,6 +41,13 @@ public class Group
     public List<DayOfWeek> Days { get; set; }
 
 
+    [Column("end_date")]
+    public DateOnly EndDate { get; set; }
+
+    [Column("times")]
+    public List<TimeOnly> Times { get; set; }
+
+
 
 
 }

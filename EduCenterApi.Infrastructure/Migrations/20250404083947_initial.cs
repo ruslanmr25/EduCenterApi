@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -128,7 +129,9 @@ namespace EduCenterApi.Infrastructure.Migrations
                     price = table.Column<int>(type: "integer", nullable: false),
                     begin_date = table.Column<DateOnly>(type: "date", nullable: false),
                     is_completed = table.Column<bool>(type: "boolean", nullable: false),
-                    Days = table.Column<int[]>(type: "integer[]", nullable: false)
+                    Days = table.Column<int[]>(type: "integer[]", nullable: false),
+                    end_date = table.Column<DateOnly>(type: "date", nullable: false),
+                    times = table.Column<List<TimeOnly>>(type: "time without time zone[]", nullable: false)
                 },
                 constraints: table =>
                 {

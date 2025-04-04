@@ -42,7 +42,20 @@ public class GroupController : ControllerBase
 
         await _groupRepository.AddAsync(group);
 
+
         return Ok();
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> Show(int id)
+    {
+        Group? group = await _groupRepository.GetByIdAsync(id);
+        if(group==null)
+        {
+            return NotFound();
+        }
+
+        return Ok(group);
     }
 
 
