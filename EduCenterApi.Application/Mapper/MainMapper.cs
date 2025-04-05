@@ -3,6 +3,7 @@ using AutoMapper;
 using EduCenterApi.Application.DTOs.CenterDtos;
 using EduCenterApi.Application.DTOs.GroupDto;
 using EduCenterApi.Application.DTOs.ScienceDto;
+using EduCenterApi.Application.DTOs.StudentDto;
 using EduCenterApi.Application.DTOs.TeacherDto;
 using EduCenterApi.Application.DTOs.UserDtos;
 using EduCenterApi.Domain.Entities;
@@ -56,6 +57,12 @@ public class MainMapper : Profile
      .ForMember(dest => dest.SinceId, opt => opt.Condition(src => src.SinceId.HasValue))
      .ForMember(dest => dest.TeacherPortion, opt => opt.Condition(src => src.TeacherPortion.HasValue))
      .ForMember(dest => dest.Price, opt => opt.Condition(src => src.Price.HasValue));
+
+
+
+        CreateMap<CreateStudentDto, Student>();
+        CreateMap<UpdateStudentDto, Student>()
+            .ForAllMembers(options => options.Condition((src, dest, srcMember) => srcMember != null));
 
     }
 }

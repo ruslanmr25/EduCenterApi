@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EduCenterApi.Infrastructure.Migrations
 {
     [DbContext(typeof(BaseContext))]
-    [Migration("20250404083947_initial")]
+    [Migration("20250405112155_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -194,6 +194,38 @@ namespace EduCenterApi.Infrastructure.Migrations
                         });
                 });
 
+            modelBuilder.Entity("EduCenterApi.Domain.Entities.Student", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("FatherPhone")
+                        .HasColumnType("text")
+                        .HasColumnName("father_phone");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("full_name");
+
+                    b.Property<string>("MotherPhone")
+                        .HasColumnType("text")
+                        .HasColumnName("mother_phone");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("phone");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Students");
+                });
+
             modelBuilder.Entity("EduCenterApi.Domain.Entities.TeacherCenter", b =>
                 {
                     b.Property<int>("Id")
@@ -272,6 +304,21 @@ namespace EduCenterApi.Infrastructure.Migrations
                         });
                 });
 
+            modelBuilder.Entity("GroupStudent", b =>
+                {
+                    b.Property<int>("GroupsId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("StudentsId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("GroupsId", "StudentsId");
+
+                    b.HasIndex("StudentsId");
+
+                    b.ToTable("GroupStudent");
+                });
+
             modelBuilder.Entity("EduCenterApi.Domain.Entities.Center", b =>
                 {
                     b.HasOne("EduCenterApi.Domain.Entities.User", "Admin")
@@ -347,6 +394,21 @@ namespace EduCenterApi.Infrastructure.Migrations
                         .HasForeignKey("RoleId");
 
                     b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("GroupStudent", b =>
+                {
+                    b.HasOne("EduCenterApi.Domain.Entities.Group", null)
+                        .WithMany()
+                        .HasForeignKey("GroupsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EduCenterApi.Domain.Entities.Student", null)
+                        .WithMany()
+                        .HasForeignKey("StudentsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("EduCenterApi.Domain.Entities.Center", b =>

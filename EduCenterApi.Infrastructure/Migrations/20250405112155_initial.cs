@@ -29,6 +29,22 @@ namespace EduCenterApi.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Students",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    full_name = table.Column<string>(type: "text", nullable: false),
+                    phone = table.Column<string>(type: "text", nullable: false),
+                    father_phone = table.Column<string>(type: "text", nullable: true),
+                    mother_phone = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Students", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "users",
                 columns: table => new
                 {
@@ -156,6 +172,30 @@ namespace EduCenterApi.Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "GroupStudent",
+                columns: table => new
+                {
+                    GroupsId = table.Column<int>(type: "integer", nullable: false),
+                    StudentsId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GroupStudent", x => new { x.GroupsId, x.StudentsId });
+                    table.ForeignKey(
+                        name: "FK_GroupStudent_Students_StudentsId",
+                        column: x => x.StudentsId,
+                        principalTable: "Students",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_GroupStudent_groups_GroupsId",
+                        column: x => x.GroupsId,
+                        principalTable: "groups",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "roles",
                 columns: new[] { "id", "name" },
@@ -206,6 +246,11 @@ namespace EduCenterApi.Infrastructure.Migrations
                 column: "teacher_id");
 
             migrationBuilder.CreateIndex(
+                name: "IX_GroupStudent_StudentsId",
+                table: "GroupStudent",
+                column: "StudentsId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_sinces_center_id",
                 table: "sinces",
                 column: "center_id");
@@ -230,10 +275,16 @@ namespace EduCenterApi.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "groups");
+                name: "GroupStudent");
 
             migrationBuilder.DropTable(
                 name: "teacher_center");
+
+            migrationBuilder.DropTable(
+                name: "Students");
+
+            migrationBuilder.DropTable(
+                name: "groups");
 
             migrationBuilder.DropTable(
                 name: "sinces");

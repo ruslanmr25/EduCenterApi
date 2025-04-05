@@ -38,8 +38,24 @@ public class BaseContext : DbContext
             new Since { Id = 1, Name = "matematika", CenterId=1 }
             );
 
+        //modelBuilder.Entity<Group>().HasData(
+        //    new Group
+        //    {
+        //        Id = 1,
+        //        Name = "Group 1",
+        //        TeacherId = 1,
+        //        CenterId = 1,
+        //        SinceId = 1,
+        //        TeacherPortion = 50,
+        //        Price = 1000,
+        //        BeginDate = new DateOnly(2025, 4, 5),
+        //        EndDate = new DateOnly(2025, 5, 5),
+        //        IsCompleted = false,
+        //        //Days = "Monday,Wednesday",
+        //        //Times = "10:00,12:00"
+        //    }
+        //);
 
-        
 
 
     }
@@ -52,5 +68,7 @@ public class BaseContext : DbContext
     public DbSet<Since> Sinces { get; set; }
 
     public DbSet<TeacherCenter> TeacherCenters { get; set; }
+
+    public DbSet<Student> Students { get; set; }    
 
 }

@@ -48,6 +48,9 @@ public class Group
     public List<TimeOnly> Times { get; set; }
 
 
+    public List<Student> Students { get; set; } 
+
+
 
 
 }
