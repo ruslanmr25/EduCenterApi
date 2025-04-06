@@ -51,6 +51,9 @@ public class Group
     public List<Student> Students { get; set; } 
 
 
+    public List<StudentPaymentSycle> StudentPaymentSycles { get;set; }
+
+
 
 
 }

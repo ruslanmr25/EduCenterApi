@@ -19,4 +19,6 @@ public class CreateStudentDto
 
 
     public List<int> GroupIds { get; set; }
+
+    public DateOnly? BeginSycleDate { get; set; }
 }

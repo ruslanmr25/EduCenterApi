@@ -10,6 +10,7 @@ public class BaseContext : DbContext
     {
 
         base.OnConfiguring(optionsBuilder);
+    
     }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -70,5 +71,9 @@ public class BaseContext : DbContext
     public DbSet<TeacherCenter> TeacherCenters { get; set; }
 
     public DbSet<Student> Students { get; set; }    
+
+    public DbSet<StudentPaymentSycle> StudentPaymentSycles { get;set; }
+
+    public DbSet<StudentPayment> StudentPayments { get; set; }
 
 }

@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EduCenterApi.Infrastructure.Migrations
 {
     [DbContext(typeof(BaseContext))]
-    [Migration("20250405112155_initial")]
+    [Migration("20250406133059_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -226,6 +226,85 @@ namespace EduCenterApi.Infrastructure.Migrations
                     b.ToTable("Students");
                 });
 
+            modelBuilder.Entity("EduCenterApi.Domain.Entities.StudentPayment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Amount")
+                        .HasColumnType("integer")
+                        .HasColumnName("amount");
+
+                    b.Property<DateOnly>("PaidDate")
+                        .HasColumnType("date")
+                        .HasColumnName("paid_date");
+
+                    b.Property<int>("Payed")
+                        .HasColumnType("integer")
+                        .HasColumnName("payed");
+
+                    b.Property<int>("StudentPaymentSycleId")
+                        .HasColumnType("integer")
+                        .HasColumnName("student_payment_sycle_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StudentPaymentSycleId");
+
+                    b.ToTable("student_payments");
+                });
+
+            modelBuilder.Entity("EduCenterApi.Domain.Entities.StudentPaymentSycle", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Amount")
+                        .HasColumnType("integer")
+                        .HasColumnName("amount");
+
+                    b.Property<int>("GroupId")
+                        .HasColumnType("integer")
+                        .HasColumnName("group_id");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("status");
+
+                    b.Property<int>("StudentId")
+                        .HasColumnType("integer")
+                        .HasColumnName("student_id");
+
+                    b.Property<DateOnly>("SycleBeginDate")
+                        .HasColumnType("date")
+                        .HasColumnName("sycle_begin_date");
+
+                    b.Property<DateOnly?>("SycleEndDate")
+                        .HasColumnType("date")
+                        .HasColumnName("sycle_end_date");
+
+                    b.Property<DateOnly?>("SycleNexDate")
+                        .HasColumnType("date")
+                        .HasColumnName("sycle_next_date");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GroupId");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("student_payment_sycle");
+                });
+
             modelBuilder.Entity("EduCenterApi.Domain.Entities.TeacherCenter", b =>
                 {
                     b.Property<int>("Id")
@@ -368,6 +447,36 @@ namespace EduCenterApi.Infrastructure.Migrations
                     b.Navigation("Center");
                 });
 
+            modelBuilder.Entity("EduCenterApi.Domain.Entities.StudentPayment", b =>
+                {
+                    b.HasOne("EduCenterApi.Domain.Entities.StudentPaymentSycle", "StudentPaymentSycle")
+                        .WithMany("StudentPayments")
+                        .HasForeignKey("StudentPaymentSycleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("StudentPaymentSycle");
+                });
+
+            modelBuilder.Entity("EduCenterApi.Domain.Entities.StudentPaymentSycle", b =>
+                {
+                    b.HasOne("EduCenterApi.Domain.Entities.Group", "Group")
+                        .WithMany("StudentPaymentSycles")
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EduCenterApi.Domain.Entities.Student", "Student")
+                        .WithMany("StudentPaymentSycles")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Group");
+
+                    b.Navigation("Student");
+                });
+
             modelBuilder.Entity("EduCenterApi.Domain.Entities.TeacherCenter", b =>
                 {
                     b.HasOne("EduCenterApi.Domain.Entities.Center", "Center")
@@ -414,6 +523,21 @@ namespace EduCenterApi.Infrastructure.Migrations
             modelBuilder.Entity("EduCenterApi.Domain.Entities.Center", b =>
                 {
                     b.Navigation("TeacherCenters");
+                });
+
+            modelBuilder.Entity("EduCenterApi.Domain.Entities.Group", b =>
+                {
+                    b.Navigation("StudentPaymentSycles");
+                });
+
+            modelBuilder.Entity("EduCenterApi.Domain.Entities.Student", b =>
+                {
+                    b.Navigation("StudentPaymentSycles");
+                });
+
+            modelBuilder.Entity("EduCenterApi.Domain.Entities.StudentPaymentSycle", b =>
+                {
+                    b.Navigation("StudentPayments");
                 });
 
             modelBuilder.Entity("EduCenterApi.Domain.Entities.User", b =>

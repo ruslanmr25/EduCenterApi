@@ -196,6 +196,59 @@ namespace EduCenterApi.Infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "student_payment_sycle",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    student_id = table.Column<int>(type: "integer", nullable: false),
+                    amount = table.Column<int>(type: "integer", nullable: false),
+                    status = table.Column<string>(type: "text", nullable: false),
+                    sycle_begin_date = table.Column<DateOnly>(type: "date", nullable: false),
+                    sycle_end_date = table.Column<DateOnly>(type: "date", nullable: true),
+                    sycle_next_date = table.Column<DateOnly>(type: "date", nullable: true),
+                    group_id = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_student_payment_sycle", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_student_payment_sycle_Students_student_id",
+                        column: x => x.student_id,
+                        principalTable: "Students",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_student_payment_sycle_groups_group_id",
+                        column: x => x.group_id,
+                        principalTable: "groups",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "student_payments",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    amount = table.Column<int>(type: "integer", nullable: false),
+                    payed = table.Column<int>(type: "integer", nullable: false),
+                    student_payment_sycle_id = table.Column<int>(type: "integer", nullable: false),
+                    paid_date = table.Column<DateOnly>(type: "date", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_student_payments", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_student_payments_student_payment_sycle_student_payment_sycl~",
+                        column: x => x.student_payment_sycle_id,
+                        principalTable: "student_payment_sycle",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "roles",
                 columns: new[] { "id", "name" },
@@ -256,6 +309,21 @@ namespace EduCenterApi.Infrastructure.Migrations
                 column: "center_id");
 
             migrationBuilder.CreateIndex(
+                name: "IX_student_payment_sycle_group_id",
+                table: "student_payment_sycle",
+                column: "group_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_student_payment_sycle_student_id",
+                table: "student_payment_sycle",
+                column: "student_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_student_payments_student_payment_sycle_id",
+                table: "student_payments",
+                column: "student_payment_sycle_id");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_teacher_center_center_id",
                 table: "teacher_center",
                 column: "center_id");
@@ -278,7 +346,13 @@ namespace EduCenterApi.Infrastructure.Migrations
                 name: "GroupStudent");
 
             migrationBuilder.DropTable(
+                name: "student_payments");
+
+            migrationBuilder.DropTable(
                 name: "teacher_center");
+
+            migrationBuilder.DropTable(
+                name: "student_payment_sycle");
 
             migrationBuilder.DropTable(
                 name: "Students");

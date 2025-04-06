@@ -23,5 +23,7 @@ public class Student
 
     public List<Group> Groups { get; set; }
 
+    public List<StudentPaymentSycle> StudentPaymentSycles { get;  set; }
+
 
 }

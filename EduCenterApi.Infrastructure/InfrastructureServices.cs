@@ -27,6 +27,8 @@ namespace EduCenterApi.Infrastructure
             services.AddScoped<IGroupRepository, GroupRepository>();
             services.AddScoped<IStudentRepository, StudentRepository>();
 
+            services.AddScoped<IStudentPaymentSycleRepository, StudentPaymentSycleRepository>();
+
 
 
             services.AddScoped<IUniqueValidator,UniqueValidator>();
