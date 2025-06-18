@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="wwwroot\templates\**" />
+    <Content Remove="wwwroot\templates\**" />
+    <EmbeddedResource Remove="wwwroot\templates\**" />
+    <None Remove="wwwroot\templates\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EduCenterApi.Application\EduCenterApi.Application.csproj" />
+  </ItemGroup>
+
+</Project>

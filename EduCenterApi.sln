@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduCenterApi.Infrastructure
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduCenterApi.Application", "EduCenterApi.Application\EduCenterApi.Application.csproj", "{79ABFFC9-28A1-4153-81AA-F1042A81FE93}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EduCenter.Frontend", "EduCenter.Frontend\EduCenter.Frontend.csproj", "{862CA11B-8EA5-4820-988F-22D6210B2D08}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,8 +35,15 @@ Global
 		{79ABFFC9-28A1-4153-81AA-F1042A81FE93}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{79ABFFC9-28A1-4153-81AA-F1042A81FE93}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{79ABFFC9-28A1-4153-81AA-F1042A81FE93}.Release|Any CPU.Build.0 = Release|Any CPU
+		{862CA11B-8EA5-4820-988F-22D6210B2D08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{862CA11B-8EA5-4820-988F-22D6210B2D08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{862CA11B-8EA5-4820-988F-22D6210B2D08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{862CA11B-8EA5-4820-988F-22D6210B2D08}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A33CE8A9-370C-4527-B5EA-F7651708A0D0}
 	EndGlobalSection
 EndGlobal

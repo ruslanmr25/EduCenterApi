@@ -1,0 +1,295 @@
+﻿@page "/super-admin/users"
+
+
+<PageTitle>Users</PageTitle>
+
+
+<HeadContent>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword" content="">
+    <meta name="author" content="WRAPCODERS">
+
+
+
+
+
+
+
+</HeadContent>
+
+
+@if (Users is null)
+{
+    <div class="text-center p-5">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="mt-3">Loading users...</p>
+    </div>
+}
+else
+{
+
+    <main class="nxl-container">
+        <div class="nxl-content">
+            <!-- [ page-header ] start -->
+            <div class="page-header">
+                <div class="page-header-left d-flex align-items-center">
+                    <div class="page-header-title">
+                        <h5 class="m-b-10">Leads</h5>
+                    </div>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item">Leads</li>
+                    </ul>
+                </div>
+                <div class="page-header-right ms-auto">
+                    <div class="page-header-right-items">
+                        <div class="d-flex d-md-none">
+                            <a href="javascript:void(0)" class="page-header-right-close-toggle">
+                                <i class="feather-arrow-left me-2"></i>
+                                <span>Back</span>
+                            </a>
+                        </div>
+                        <div class="d-flex align-items-center gap-2 page-header-right-items-wrapper">
+
+                            <div class="dropdown">
+                                <a class="btn btn-icon btn-light-brand" data-bs-toggle="dropdown" data-bs-offset="0, 10"
+                                    data-bs-auto-close="outside">
+                                    <i class="feather-filter"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a href="javascript:void(0);" class="dropdown-item">
+                                        <span class="wd-7 ht-7 bg-primary rounded-circle d-inline-block me-3"></span>
+                                        <span>New</span>
+                                    </a>
+                                    <a href="javascript:void(0);" class="dropdown-item">
+                                        <span class="wd-7 ht-7 bg-warning rounded-circle d-inline-block me-3"></span>
+                                        <span>Working</span>
+                                    </a>
+                                    <a href="javascript:void(0);" class="dropdown-item">
+                                        <span class="wd-7 ht-7 bg-success rounded-circle d-inline-block me-3"></span>
+                                        <span>Qualified</span>
+                                    </a>
+                                    <a href="javascript:void(0);" class="dropdown-item">
+                                        <span class="wd-7 ht-7 bg-danger rounded-circle d-inline-block me-3"></span>
+                                        <span>Declined</span>
+                                    </a>
+                                    <a href="javascript:void(0);" class="dropdown-item">
+                                        <span class="wd-7 ht-7 bg-teal rounded-circle d-inline-block me-3"></span>
+                                        <span>Customer</span>
+                                    </a>
+                                    <a href="javascript:void(0);" class="dropdown-item">
+                                        <span class="wd-7 ht-7 bg-indigo rounded-circle d-inline-block me-3"></span>
+                                        <span>Contacted</span>
+                                    </a>
+                                    <div class="dropdown-divider"></div>
+                                    <a href="javascript:void(0);" class="dropdown-item">
+                                        <span class="wd-7 ht-7 bg-warning rounded-circle d-inline-block me-3"></span>
+                                        <span>Pending</span>
+                                    </a>
+                                    <a href="javascript:void(0);" class="dropdown-item">
+                                        <span class="wd-7 ht-7 bg-success rounded-circle d-inline-block me-3"></span>
+                                        <span>Approved</span>
+                                    </a>
+                                    <a href="javascript:void(0);" class="dropdown-item">
+                                        <span class="wd-7 ht-7 bg-teal rounded-circle d-inline-block me-3"></span>
+                                        <span>In Progress</span>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="dropdown">
+                                <a class="btn btn-icon btn-light-brand" data-bs-toggle="dropdown" data-bs-offset="0, 10"
+                                    data-bs-auto-close="outside">
+                                    <i class="feather-paperclip"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a href="javascript:void(0);" class="dropdown-item">
+                                        <i class="bi bi-filetype-pdf me-3"></i>
+                                        <span>PDF</span>
+                                    </a>
+                                    <a href="javascript:void(0);" class="dropdown-item">
+                                        <i class="bi bi-filetype-csv me-3"></i>
+                                        <span>CSV</span>
+                                    </a>
+                                    <a href="javascript:void(0);" class="dropdown-item">
+                                        <i class="bi bi-filetype-xml me-3"></i>
+                                        <span>XML</span>
+                                    </a>
+                                    <a href="javascript:void(0);" class="dropdown-item">
+                                        <i class="bi bi-filetype-txt me-3"></i>
+                                        <span>Text</span>
+                                    </a>
+                                    <a href="javascript:void(0);" class="dropdown-item">
+                                        <i class="bi bi-filetype-exe me-3"></i>
+                                        <span>Excel</span>
+                                    </a>
+                                    <div class="dropdown-divider"></div>
+                                    <a href="javascript:void(0);" class="dropdown-item">
+                                        <i class="bi bi-printer me-3"></i>
+                                        <span>Print</span>
+                                    </a>
+                                </div>
+                            </div>
+                            <a href="leads-create.html" class="btn btn-primary">
+                                <i class="feather-plus me-2"></i>
+                                <span>Create Lead</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="d-md-none d-flex align-items-center">
+                        <a href="javascript:void(0)" class="page-header-right-open-toggle">
+                            <i class="feather-align-right fs-20"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+            <div class="main-content">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card stretch stretch-full">
+                            <div class="card-body p-0">
+
+
+
+                                <div class="table-responsive">
+                                    <table class="table table-hover" id="leadList">
+                                        <thead>
+                                            <tr>
+                                                <th class="wd-30">
+                                                    <div class="btn-group mb-1">
+                                                        <div class="custom-control custom-checkbox ms-1">
+                                                            <input type="checkbox" class="custom-control-input"
+                                                                id="checkAllLead">
+                                                            <label class="custom-control-label" for="checkAllLead"></label>
+                                                        </div>
+                                                    </div>
+                                                </th>
+                                                <th>Id</th>
+                                                <th>Name</th>
+                                                <th>Center</th>
+                                                <th>Phone</th>
+                                                <th>Username</th>
+                                                <th>Status</th>
+                                                <th class="text-end">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            @foreach (User user in Users)
+                                            {
+
+
+                                                <tr class="single-item">
+                                                    <td>
+                                                        <div class="item-checkbox ms-1">
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" class="custom-control-input checkbox"
+                                                                    id="checkBox_1">
+                                                                <label class="custom-control-label" for="checkBox_1"></label>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+
+
+                                                        <div>
+                                                            <span class="text-truncate-1-line">@user.Id</span>
+                                                        </div>
+
+                                                    </td>
+                                                    <td>@user.FullName</td>
+                                                    <td>
+                                                        <div class="hstack gap-2">
+
+                                                            Center
+                                                        </div>
+                                                    </td>
+                                                    <td><a href="tel:">(375) 9632 548</a></td>
+                                                    <td>@user.Username</td>
+
+
+                                                    <td>
+                                                        <select class="form-control" data-select2-selector="status">
+                                                            <option value="primary" data-bg="bg-primary">Active</option>
+                                                            <option value="warning" data-bg="bg-warning">Disabled</option>
+
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <div class="hstack gap-2 justify-content-end">
+                                                            <a href="leads-view.html" class="avatar-text avatar-md">
+                                                                <i class="feather feather-eye"></i>
+                                                            </a>
+                                                            <div class="dropdown">
+                                                                <a href="javascript:void(0)" class="avatar-text avatar-md"
+                                                                    data-bs-toggle="dropdown" data-bs-offset="0,21">
+                                                                    <i class="feather feather-more-horizontal"></i>
+                                                                </a>
+                                                                <ul class="dropdown-menu">
+                                                                    <li>
+                                                                        <a class="dropdown-item" href="javascript:void(0)">
+                                                                            <i class="feather feather-edit-3 me-3"></i>
+                                                                            <span>Edit</span>
+                                                                        </a>
+                                                                    </li>
+
+                                                                    <li class="dropdown-divider"></li>
+                                                                    <li>
+                                                                        <a class="dropdown-item" href="javascript:void(0)">
+                                                                            <i class="feather feather-trash-2 me-3"></i>
+                                                                            <span>Delete</span>
+                                                                        </a>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+
+                                            }
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- [ Main Content ] end -->
+        </div>
+
+    </main>
+
+
+
+
+}
+
+@code {
+    protected List<User>? Users { get; set; }
+
+
+    [Inject] private UserClient? UserClient { get; set; }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        ArgumentNullException.ThrowIfNull(UserClient);
+        var result = await UserClient.GetAllAsync();
+
+        Users = result.Items?.ToList() ?? [];
+    }
+
+}

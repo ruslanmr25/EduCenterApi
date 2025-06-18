@@ -13,7 +13,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowBlazorClient", policy =>
     {
-        policy.WithOrigins("http://localhost:5228") // bu sizning Blazor frontend manzilingiz
+        policy.WithOrigins("https://localhost:7039") // bu sizning Blazor frontend manzilingiz
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
@@ -37,10 +37,10 @@ if (app.Environment.IsDevelopment())
 }
 
 
+app.UseCors("AllowBlazorClient");
 
 app.UseHttpsRedirection();
 
-app.UseCors("AllowBlazorClient");
 
 app.UseAuthorization();
 
