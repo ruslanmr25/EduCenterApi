@@ -1,0 +1,138 @@
+﻿@page "/super-admin/centers/create"
+
+
+
+
+
+<main class="nxl-container">
+    <div class="nxl-content">
+
+
+        <div class="main-content">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card stretch stretch-full">
+
+                        <hr class="mt-0">
+                        <div class="card-body general-info">
+
+                            <EditForm OnValidSubmit="HandleSubmitAsync" FormName="CreateCenter" Enhance Model="@CreateCenterDto">
+
+                                <DataAnnotationsValidator></DataAnnotationsValidator>
+
+                                <div class="mb-5 d-flex align-items-center justify-content-between">
+                                    <h5 class="fw-bold mb-0 me-4">
+                                        <span class="fs-20 d-block mb-2">O'quv markaz ma'lumotlari:</span>
+                                        <span class="fs-16 fw-normal text-muted text-truncate-1-line">Quyidagilarning barchasini kiriting</span>
+                                    </h5>
+                                    <button class=" btn btn-primary" type="submit">Saqlash</button>
+                                </div>
+                                <div class="row mb-4 align-items-center">
+                                    <div class="col-lg-4">
+                                        <label for="fullnameInput" class="fw-semibold">Name: </label>
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <div class="input-group">
+                                            <div class="input-group-text"><i class="feather-user"></i></div>
+                                            <InputText @bind-Value="CreateCenterDto.Name" class="form-control" id="fullnameInput" placeholder="Name"></InputText>
+
+                                        </div>
+                                        <ValidationMessage class="text-danger" For="@(() => CreateCenterDto.Name)"></ValidationMessage>
+
+                                    </div>
+                                </div>
+
+                             
+
+
+
+
+                                <div class="row mb-4 align-items-center">
+                                    <div class="col-lg-4">
+                                        <label class="fw-semibold">Role: </label>
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <InputSelect @bind-Value="CreateCenterDto.AdminId" class="form-control" data-select2-selector="city">
+                                            <option data-city="bg-danger" value="">-- Adminlarni tanlash tanlash --</option>
+
+                                            @foreach (var user in Users ?? [])
+                                            {
+
+                                                <option value="@user.Id" data-city="bg-primary">@user.FullName</option>
+                                            }
+
+
+                                        </InputSelect>
+
+
+                                        <ValidationMessage class="text-danger" For="@(() => CreateCenterDto.AdminId)"></ValidationMessage>
+                                    </div>
+                                </div>
+
+                            </EditForm>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- [ Main Content ] end -->
+    </div>
+
+
+</main>
+
+
+
+
+@code {
+
+    [Inject] private UserClient UserClient { get; set; }
+
+    [Inject] private CenterClient CenterClient { get; set; }
+
+    [Inject] private IJSRuntime JSRuntime { get; set; }
+    [Inject] NavigationManager NavigationManager { get; set; }
+
+    [SupplyParameterFromForm]
+    protected CreateCenterDto CreateCenterDto { get; set; } = new CreateCenterDto();
+
+    private bool _shouldShowAlert = false;
+
+
+    protected IEnumerable<User>? Users { get; set; }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        var users = await UserClient.GetAllAsync();
+
+        Users = users.Items;
+
+    }
+
+    protected async Task HandleSubmitAsync()
+    {
+
+
+        ArgumentNullException.ThrowIfNull(CenterClient);
+
+        await CenterClient.CreateAsync(CreateCenterDto);
+
+
+        _shouldShowAlert = true;
+
+        StateHasChanged();
+        NavigationManager.NavigateTo("/super-admin/centers");
+
+
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && _shouldShowAlert)
+        {
+            await JSRuntime.InvokeVoidAsync("successAlertMessage", "Foydalanuvchi muvaffaqiyatli yaratildi!");
+            _shouldShowAlert = false;
+        }
+    }
+}

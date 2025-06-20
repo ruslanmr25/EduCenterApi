@@ -39,7 +39,20 @@ public class BaseClient<T> where T : class
     }
 
 
+    protected async Task UpdateAsync<M>(string url, M entity)
+    {
+        await _httpClient.PutAsJsonAsync<M>(url, entity);
+    }
 
+    protected async Task<T> GetByIdAsync(int id, string url)
+    {
+        var fullUrl = $"{url}/{id}";
+        var response = await _httpClient.GetFromJsonAsync<T>(fullUrl);
+        
+
+        return response ?? throw new Exception($"Entity with ID {id} not found at {fullUrl}");
+
+    }
 
 
 }

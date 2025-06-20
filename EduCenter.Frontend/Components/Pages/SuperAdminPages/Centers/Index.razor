@@ -1,4 +1,4 @@
-﻿@page "/super-admin/users"
+﻿@page "/super-admin/centers"
 
 
 <PageTitle>Users</PageTitle>
@@ -21,7 +21,7 @@
 </HeadContent>
 
 
-@if (Users is null)
+@if (Centers is null)
 {
     <div class="text-center p-5">
         <div class="spinner-border text-primary" role="status">
@@ -176,16 +176,13 @@ else
                                                 </th>
                                                 <th>Id</th>
                                                 <th>Name</th>
-                                                <th>Center</th>
-                                                <th>Phone</th>
-                                                <th>Username</th>
                                                 <th>Status</th>
                                                 <th class="text-end">Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
 
-                                            @foreach (User user in Users)
+                                            @foreach (Center center in Centers)
                                             {
 
 
@@ -203,21 +200,12 @@ else
 
 
                                                         <div>
-                                                            <span class="text-truncate-1-line">@user.Id</span>
+                                                            <span class="text-truncate-1-line">@center.Id</span>
                                                         </div>
 
                                                     </td>
-                                                    <td>@user.FullName</td>
-                                                    <td>
-                                                        <div class="hstack gap-2">
-
-                                                            Center
-                                                        </div>
-                                                    </td>
-                                                    <td><a href="tel:">(375) 9632 548</a></td>
-                                                    <td>@user.Username</td>
-
-
+                                                    <td>@center.Name</td>
+                                                    
                                                     <td>
                                                         <select class="form-control" data-select2-selector="status">
                                                             <option value="primary" data-bg="bg-primary">Active</option>
@@ -277,19 +265,19 @@ else
 }
 
 @code {
-    protected List<User>? Users { get; set; }
+    protected List<Center>? Centers { get; set; }
 
 
-    [Inject] private UserClient? UserClient { get; set; }
+    [Inject] private CenterClient? CenterClient { get; set; }
 
 
     protected override async Task OnInitializedAsync()
     {
 
-        ArgumentNullException.ThrowIfNull(UserClient);
-        var result = await UserClient.GetAllAsync();
+        ArgumentNullException.ThrowIfNull(CenterClient);
+        var result = await CenterClient.GetAllAsync();
 
-        Users = result.Items?.ToList() ?? [];
+        Centers = result.Items?.ToList() ?? [];
     }
 
 }

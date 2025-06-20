@@ -1,0 +1,40 @@
+﻿using EduCenter.Frontend.Responses;
+using EduCenterApi.Domain.Entities;
+using EduCenterApi.Application.DTOs.UserDtos;
+using EduCenterApi.Application.DTOs.CenterDtos;
+
+namespace EduCenter.Frontend.Clients;
+
+public class CenterClient(HttpClient httpClient) : BaseClient<Center>(httpClient)
+{
+
+
+    public string uri = "/api/super-admin/centers";
+
+
+
+    public async Task<PaginatedResponse<Center>> GetAllAsync(int pageIndex = 1, int pageSize = 40)
+    {
+
+        return await base.GetAllAsync(uri, pageIndex, pageSize);
+    }
+
+
+    public async Task CreateAsync(CreateCenterDto center)
+    {
+        await base.CreateAsync<CreateCenterDto>(uri, center);
+    }
+    public async Task UpdateAsync(int Id, UpdateCenterDto centerDto)
+    {
+        var url = $"{uri}/{Id}";
+        await base.UpdateAsync<UpdateCenterDto>(url, centerDto);
+    }
+
+    public async Task<Center> GetCenterByIdAsync(int id)
+    {
+
+        return await base.GetByIdAsync(id, uri);
+    }
+
+
+}

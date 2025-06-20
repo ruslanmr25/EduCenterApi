@@ -19,6 +19,11 @@ builder.Services.AddHttpClient<RoleClient>(client =>
     client.BaseAddress = new Uri(baseAddress);
 });
 
+builder.Services.AddHttpClient<CenterClient>(client =>
+{
+    client.BaseAddress = new Uri(baseAddress);
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
