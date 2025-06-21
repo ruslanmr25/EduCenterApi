@@ -67,4 +67,13 @@ public class StudentPaymentSycleRepository : BaseRepository<StudentPaymentSycle>
             await _context.SaveChangesAsync();
         }
     }
+
+    public async Task<StudentPaymentSycle?> GetByIdWithGroup(int id)
+    {
+        return await _context.StudentPaymentSycles
+            .Where(s=>s.Id == id)
+            .Include(s=>s.Group)
+            .FirstOrDefaultAsync();    
+
+    }
 }

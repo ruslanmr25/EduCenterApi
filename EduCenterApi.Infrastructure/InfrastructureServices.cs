@@ -30,7 +30,7 @@ namespace EduCenterApi.Infrastructure
             services.AddScoped<IStudentPaymentSycleRepository, StudentPaymentSycleRepository>();
 
 
-
+            services.AddScoped<IStudentPaymentRepository, StudentPaymentRepository>();
             services.AddScoped<IUniqueValidator,UniqueValidator>();
             return services;
         }

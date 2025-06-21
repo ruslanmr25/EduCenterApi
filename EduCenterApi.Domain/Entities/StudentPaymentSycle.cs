@@ -29,7 +29,7 @@ public class StudentPaymentSycle
     public DateOnly? SycleEndDate { get; set; }
 
     [Column("sycle_next_date")]
-    public DateOnly? SycleNexDate { get; set; }
+    public DateOnly SycleNexDate { get; set; }
 
     public Group Group { get; set; }
 

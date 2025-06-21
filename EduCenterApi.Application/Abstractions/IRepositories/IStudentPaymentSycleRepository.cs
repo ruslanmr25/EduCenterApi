@@ -7,4 +7,7 @@ public interface IStudentPaymentSycleRepository:IBaseRepository<StudentPaymentSy
     public Task AddStudentPaymentSycleAsync(int studentId, int groupId, int amount, DateOnly beginDate, DateOnly nextDate);
     public Task UpdateSycleAsync(int studentId, List<int> groupIds);
 
+    public  Task<StudentPaymentSycle?> GetByIdWithGroup(int id);
+
+
 }
