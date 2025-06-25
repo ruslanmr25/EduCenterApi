@@ -27,6 +27,11 @@ public class CenterClient(HttpClient httpClient) : BaseClient<Center>(httpClient
     public async Task UpdateAsync(int Id, UpdateCenterDto centerDto)
     {
         var url = $"{uri}/{Id}";
+
+        Console.WriteLine("_________________________________________");
+
+        Console.WriteLine(url);
+        Console.WriteLine(centerDto.Name);
         await base.UpdateAsync<UpdateCenterDto>(url, centerDto);
     }
 

@@ -41,7 +41,12 @@ public class BaseClient<T> where T : class
 
     protected async Task UpdateAsync<M>(string url, M entity)
     {
-        await _httpClient.PutAsJsonAsync<M>(url, entity);
+
+
+        var response = await _httpClient.PutAsJsonAsync<M>(url, entity);
+
+
+        if (!response.IsSuccessStatusCode) throw new Exception($"Failed to update entity at {url}. Status code: {response.StatusCode}");
     }
 
     protected async Task<T> GetByIdAsync(int id, string url)

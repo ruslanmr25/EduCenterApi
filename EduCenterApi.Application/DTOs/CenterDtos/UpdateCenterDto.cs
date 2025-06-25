@@ -9,6 +9,6 @@ public class UpdateCenterDto
     public string? Name { get; set; }
 
     
-    public int? AdminId { get; set; }
+    public int AdminId { get; set; }
 
 }

@@ -290,6 +290,7 @@ else
         var result = await UserClient.GetAllAsync();
 
         Users = result.Items?.ToList() ?? [];
+        StateHasChanged(); 
     }
 
 }
