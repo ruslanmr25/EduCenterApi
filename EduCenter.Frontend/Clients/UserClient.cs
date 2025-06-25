@@ -3,6 +3,7 @@
 using EduCenter.Frontend.Responses;
 using EduCenterApi.Domain.Entities;
 using EduCenterApi.Application.DTOs.UserDtos;
+using EduCenterApi.Application.DTOs.CenterDtos;
 
 namespace EduCenter.Frontend.Clients;
 
@@ -25,8 +26,17 @@ public class UserClient(HttpClient httpClient) : BaseClient<User>(httpClient)
     {
         await base.CreateAsync<CreateUserDto>(uri, user);
     }
+    public async Task UpdateAsync(int Id, UpdateUserDto userDto)
+    {
+        var url = $"{uri}/{Id}";
+        await base.UpdateAsync<UpdateUserDto>(url, userDto);
+    }
 
 
+    public async Task<User> GetCenterByIdAsync(int id)
+    {
 
+        return await base.GetByIdAsync(id, uri);
+    }
 
 }
