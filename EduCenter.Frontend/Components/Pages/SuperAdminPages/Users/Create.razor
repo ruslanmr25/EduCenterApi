@@ -127,13 +127,15 @@
 
 
 
+@inject RoleClient RoleClient
+@inject UserClient UserClient
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+
+
 
 @code {
-    [Inject] private RoleClient RoleClient { get; set; }
-    [Inject] private UserClient UserClient { get; set; }
-
-    [Inject] private IJSRuntime JSRuntime { get; set; }
-    [Inject] NavigationManager NavigationManager { get; set; }
+    
 
     [SupplyParameterFromForm]
     protected CreateUserDto CreateUserDto { get; set; } = new CreateUserDto();
@@ -146,7 +148,7 @@
     {
 
         ArgumentNullException.ThrowIfNull(RoleClient);
-        var result = await RoleClient.GetAllAsync();
+        var result = await RoleClient.GetAllAsync()!;
 
         Roles = result.Items;
 

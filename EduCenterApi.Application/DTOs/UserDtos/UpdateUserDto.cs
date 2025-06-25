@@ -8,7 +8,7 @@ public class UpdateUserDto
 
 
     [StringLength(100, MinimumLength = 3, ErrorMessage = "Full name must be between 3 and 100 characters.")]
-    public  string? FullName { get; set; }
+    public  string FullName { get; set; }=string.Empty;
 
 
     [StringLength(50, MinimumLength = 3, ErrorMessage = "Username must be between 3 and 50 characters.")]
