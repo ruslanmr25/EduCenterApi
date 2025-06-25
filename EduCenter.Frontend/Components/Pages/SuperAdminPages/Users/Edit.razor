@@ -1,9 +1,4 @@
 ﻿@page "/super-admin/users/{id:int}/edit"
-
-
-
-
-
 <main class="nxl-container">
      <div class="nxl-content">
 
@@ -16,8 +11,8 @@
                               <hr class="mt-0">
                               <div class="card-body general-info">
 
-                                   <EditForm OnValidSubmit="HandleSubmitAsync" FormName="Update-User" Enhance
-                                        Model="@UpdateUserDto">
+                                   <EditForm OnValidSubmit="HandleSubmitAsync" FormName="UpdateUser"
+                                        Model="@updateUserDto">
 
                                         <DataAnnotationsValidator></DataAnnotationsValidator>
 
@@ -36,13 +31,13 @@
                                              <div class="col-lg-8">
                                                   <div class="input-group">
                                                        <div class="input-group-text"><i class="feather-user"></i></div>
-                                                       <InputText @bind-Value="UpdateUserDto!.FullName"
+                                                       <InputText @bind-Value="updateUserDto!.FullName"
                                                             class="form-control" id="fullnameInput" placeholder="Name">
                                                        </InputText>
 
                                                   </div>
                                                   <ValidationMessage class="text-danger"
-                                                       For="@(() => UpdateUserDto.FullName)"></ValidationMessage>
+                                                       For="@(() => updateUserDto.FullName)"></ValidationMessage>
 
                                              </div>
                                         </div>
@@ -55,13 +50,13 @@
                                                   <div class="input-group">
                                                        <div class="input-group-text"><i class="feather-link-2"></i>
                                                        </div>
-                                                       <InputText @bind-Value="UpdateUserDto.Username"
+                                                       <InputText @bind-Value="updateUserDto.Username"
                                                             class="form-control" id="usernameInput"
                                                             placeholder="Username"></InputText>
 
                                                   </div>
                                                   <ValidationMessage class="text-danger"
-                                                       For="@(() => UpdateUserDto.Username)"></ValidationMessage>
+                                                       For="@(() => updateUserDto.Username)"></ValidationMessage>
                                              </div>
                                         </div>
 
@@ -72,13 +67,13 @@
                                              <div class="col-lg-8">
                                                   <div class="input-group">
                                                        <div class="input-group-text"><i class="feather-user"></i></div>
-                                                       <InputText typeof="password" @bind-Value="UpdateUserDto.Password"
+                                                       <InputText typeof="password" @bind-Value="updateUserDto.Password"
                                                             class="form-control" id="password" placeholder="Password">
                                                        </InputText>
 
                                                   </div>
                                                   <ValidationMessage class="text-danger"
-                                                       For="@(() => UpdateUserDto.Password)"></ValidationMessage>
+                                                       For="@(() => updateUserDto.Password)"></ValidationMessage>
 
                                              </div>
                                         </div>
@@ -108,7 +103,7 @@
                                                   <label class="fw-semibold">Role: </label>
                                              </div>
                                              <div class="col-lg-8">
-                                                  <InputSelect @bind-Value="UpdateUserDto.RoleId" class="form-control"
+                                                  <InputSelect @bind-Value="updateUserDto.RoleId" class="form-control"
                                                        data-select2-selector="city">
                                                        <option data-city="bg-danger" value="">-- Role tanlash --
                                                        </option>
@@ -125,7 +120,7 @@
 
 
                                                   <ValidationMessage class="text-danger"
-                                                       For="@(() => UpdateUserDto.RoleId)"></ValidationMessage>
+                                                       For="@(() => updateUserDto.RoleId)"></ValidationMessage>
                                              </div>
                                         </div>
 
@@ -160,7 +155,7 @@
 
 
      [SupplyParameterFromForm]
-     protected UpdateUserDto? UpdateUserDto { get; set; }
+     protected UpdateUserDto? updateUserDto { get; set;}=new();
 
 
      protected IEnumerable<Role>? Roles { get; set; }
@@ -168,8 +163,6 @@
 
      protected override async Task OnParametersSetAsync()
      {
-
-
 
           User user = await UserClient.GetCenterByIdAsync(Id);
 
@@ -181,13 +174,15 @@
                return;
           }
 
-          UpdateUserDto = new UpdateUserDto
+          updateUserDto = new UpdateUserDto
           {
                FullName = user.FullName,
                Username = user.Username,
                Password = user.Password,
                RoleId = user.RoleId
           };
+
+
 
      }
 
@@ -199,6 +194,8 @@
 
           Roles = result.Items;
 
+
+
      }
 
 
@@ -207,9 +204,9 @@
 
 
 
-          ArgumentNullException.ThrowIfNull(UpdateUserDto);
+          ArgumentNullException.ThrowIfNull(updateUserDto);
 
-          await UserClient.UpdateAsync(Id, UpdateUserDto);
+          await UserClient.UpdateAsync(Id, updateUserDto);
 
 
 

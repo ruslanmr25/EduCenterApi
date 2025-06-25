@@ -1,51 +1,150 @@
 ﻿@page "/super-admin/centers/{Id:int}/edit"
 
-<EditForm Model="@UpdateCenterDto" OnValidSubmit="HandleSubmitAsync">
-    <DataAnnotationsValidator />
-    <div class="mb-3">
-        <label>Name:</label>
-        <InputText @bind-Value="UpdateCenterDto.Name" class="form-control" />
-        <ValidationMessage For="@(() => UpdateCenterDto.Name)" class="text-danger" />
+
+
+
+
+<main class="nxl-container">
+    <div class="nxl-content">
+
+
+        <div class="main-content">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card stretch stretch-full">
+
+                        <hr class="mt-0">
+                        <div class="card-body general-info">
+
+                            @if (UpdateCenterDto is not null)
+                            {
+
+                                <EditForm OnValidSubmit="HandleSubmitAsync" FormName="UpdateCenter" Model="UpdateCenterDto">
+
+                                    <DataAnnotationsValidator></DataAnnotationsValidator>
+
+                                    <div class="mb-5 d-flex align-items-center justify-content-between">
+                                        <h5 class="fw-bold mb-0 me-4">
+                                            <span class="fs-20 d-block mb-2">O'quv markaz ma'lumotlari:</span>
+                                            <span class="fs-16 fw-normal text-muted text-truncate-1-line">Quyidagilarning
+                                                barchasini kiriting</span>
+                                        </h5>
+                                        <button class=" btn btn-primary" type="submit">Saqlash</button>
+                                    </div>
+                                    <div class="row mb-4 align-items-center">
+                                        <div class="col-lg-4">
+                                            <label for="fullnameInput" class="fw-semibold">Name: </label>
+                                        </div>
+                                        <div class="col-lg-8">
+                                            <div class="input-group">
+                                                <div class="input-group-text"><i class="feather-user"></i></div>
+                                                <InputText @bind-Value="UpdateCenterDto.Name" class="form-control"
+                                                    id="fullnameInput" placeholder="Name"></InputText>
+
+                                            </div>
+                                            <ValidationMessage class="text-danger" For="@(() => UpdateCenterDto.Name)">
+                                            </ValidationMessage>
+
+                                        </div>
+                                    </div>
+
+
+
+
+
+
+                                    <div class="row mb-4 align-items-center">
+                                        <div class="col-lg-4">
+                                            <label class="fw-semibold">Role: </label>
+                                        </div>
+                                        <div class="col-lg-8">
+                                            <InputSelect @bind-Value="UpdateCenterDto.AdminId" class="form-control"
+                                                data-select2-selector="city">
+                                                <option data-city="bg-danger" value="">-- Adminlarni tanlash tanlash --
+                                                </option>
+
+                                                @foreach (var user in Users ?? [])
+                                                {
+
+                                                    <option value="@user.Id" data-city="bg-primary">@user.FullName</option>
+                                                }
+
+
+                                            </InputSelect>
+
+
+                                            <ValidationMessage class="text-danger" For="@(() => UpdateCenterDto.AdminId)">
+                                            </ValidationMessage>
+                                        </div>
+                                    </div>
+
+                                </EditForm>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- [ Main Content ] end -->
     </div>
 
-    <div class="mb-3">
-        <label>Admin:</label>
-        <InputSelect @bind-Value="UpdateCenterDto.AdminId" class="form-control">
-            <option value="">-- Admin tanlang --</option>
-            @foreach (var user in Users ?? Enumerable.Empty<User>())
-            {
-                <option value="@user.Id">@user.FullName</option>
-            }
-        </InputSelect>
-        <ValidationMessage For="@(() => UpdateCenterDto.AdminId)" class="text-danger" />
-    </div>
 
-    <button type="submit" class="btn btn-primary">Saqlash</button>
-</EditForm>
+</main>
 
+
+
+
+
+@inject UserClient UserClient
+@inject CenterClient CenterClient
+@inject NavigationManager NavigationManager
 @code {
-    [Parameter] public int Id { get; set; }
+    [Parameter]
+    public int Id { get; set; }
 
-    [Inject] public UserClient UserClient { get; set; } = default!;
-    [Inject] public CenterClient CenterClient { get; set; } = default!;
-    [Inject] public NavigationManager NavigationManager { get; set; } = default!;
+    [SupplyParameterFromForm]
+    protected UpdateCenterDto? UpdateCenterDto { get; set; }
 
-    private UpdateCenterDto UpdateCenterDto { get; set; } = new();
-    private IEnumerable<User>? Users { get; set; }
+
+
+    protected IEnumerable<User>? Users { get; set; }
+
 
     protected override async Task OnInitializedAsync()
     {
-        var center = await CenterClient.GetCenterByIdAsync(Id);
-        UpdateCenterDto.Name = center.Name;
-        UpdateCenterDto.AdminId = center.AdminId;
+        var users = await UserClient.GetAllAsync();
 
-        var response = await UserClient.GetAllAsync();
-        Users = response.Items;
+        Users = users.Items;
+
     }
 
-    private async Task HandleSubmitAsync()
+    protected override async Task OnParametersSetAsync()
+    {
+        if (UpdateCenterDto is null)
+        {
+
+            Center center = await CenterClient.GetCenterByIdAsync(Id);
+
+            UpdateCenterDto = new UpdateCenterDto
+            {
+                Name = center.Name,
+                AdminId = center.AdminId
+            };
+        }
+
+
+
+    }
+
+    protected async Task HandleSubmitAsync()
     {
         await CenterClient.UpdateAsync(Id, UpdateCenterDto);
+
+
         NavigationManager.NavigateTo("/super-admin/centers");
+
+
     }
+
 }
