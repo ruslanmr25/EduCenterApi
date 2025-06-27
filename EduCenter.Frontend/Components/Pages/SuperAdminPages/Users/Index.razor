@@ -58,7 +58,7 @@ else
 
                             <div class="dropdown">
                                 <a class="btn btn-icon btn-light-brand" data-bs-toggle="dropdown" data-bs-offset="0, 10"
-                                   data-bs-auto-close="outside">
+                                    data-bs-auto-close="outside">
                                     <i class="feather-filter"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end">
@@ -103,7 +103,7 @@ else
                             </div>
                             <div class="dropdown">
                                 <a class="btn btn-icon btn-light-brand" data-bs-toggle="dropdown" data-bs-offset="0, 10"
-                                   data-bs-auto-close="outside">
+                                    data-bs-auto-close="outside">
                                     <i class="feather-paperclip"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end">
@@ -169,7 +169,7 @@ else
                                                     <div class="btn-group mb-1">
                                                         <div class="custom-control custom-checkbox ms-1">
                                                             <input type="checkbox" class="custom-control-input"
-                                                                   id="checkAllLead">
+                                                                id="checkAllLead">
                                                             <label class="custom-control-label" for="checkAllLead"></label>
                                                         </div>
                                                     </div>
@@ -194,7 +194,7 @@ else
                                                         <div class="item-checkbox ms-1">
                                                             <div class="custom-control custom-checkbox">
                                                                 <input type="checkbox" class="custom-control-input checkbox"
-                                                                       id="checkBox_1">
+                                                                    id="checkBox_1">
                                                                 <label class="custom-control-label" for="checkBox_1"></label>
                                                             </div>
                                                         </div>
@@ -232,12 +232,13 @@ else
                                                             </a>
                                                             <div class="dropdown">
                                                                 <a href="javascript:void(0)" class="avatar-text avatar-md"
-                                                                   data-bs-toggle="dropdown" data-bs-offset="0,21">
+                                                                    data-bs-toggle="dropdown" data-bs-offset="0,21">
                                                                     <i class="feather feather-more-horizontal"></i>
                                                                 </a>
                                                                 <ul class="dropdown-menu">
                                                                     <li>
-                                                                        <a class="dropdown-item" href="@($"/super-admin/users/{user.Id}/edit")">
+                                                                        <a class="dropdown-item"
+                                                                            href="@($"/super-admin/users/{user.Id}/edit")">
                                                                             <i class="feather feather-edit-3 me-3"></i>
                                                                             <span>Edit</span>
                                                                         </a>
@@ -245,10 +246,13 @@ else
 
                                                                     <li class="dropdown-divider"></li>
                                                                     <li>
-                                                                        <a class="dropdown-item" href="javascript:void(0)">
-                                                                            <i class="feather feather-trash-2 me-3"></i>
-                                                                            <span>Delete</span>
-                                                                        </a>
+
+
+                                                                        <EduCenter.Frontend.Components.Pages.SuperAdminPages.Users.Components.DeleteUserComponent
+                                                                            Id="@user.Id" Name="@user.FullName"
+                                                                            Client="@UserClient">
+
+                                                                        </EduCenter.Frontend.Components.Pages.SuperAdminPages.Users.Components.DeleteUserComponent>
                                                                     </li>
                                                                 </ul>
                                                             </div>
@@ -290,7 +294,7 @@ else
         var result = await UserClient.GetAllAsync();
 
         Users = result.Items?.ToList() ?? [];
-        StateHasChanged(); 
+        StateHasChanged();
     }
 
 }

@@ -6,7 +6,7 @@
 <body>
 
 
-	@if (role == "Superadmin")
+	@if (role == "SuperAdmin")
 	{
 
 		<SuperAdminNavbar>
@@ -14,7 +14,7 @@
 		</SuperAdminNavbar>
 	}
 
-	elseif(role=="CenterAdmin")
+	else if(role=="CenterAdmin")
 	{
 	<CenterAdminNavbar>
 
@@ -51,7 +51,7 @@
 
 @code {
 
-	string role = "CenterAdmin";
+	string role = "SuperAdmin";
 
 
 }

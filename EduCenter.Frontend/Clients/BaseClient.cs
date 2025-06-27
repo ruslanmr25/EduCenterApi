@@ -1,15 +1,19 @@
-﻿using EduCenter.Frontend.Responses;
+﻿using EduCenter.Frontend.Interfaces;
+using EduCenter.Frontend.Responses;
 using System.Net.Http;
 using System.Net.Http.Json;
 
 namespace EduCenter.Frontend.Clients;
-public class BaseClient<T> where T : class
+
+public abstract class BaseClient<T> : IClient where T : class
 {
 
-
+    //  readonly string Uri = string.Empty;
 
 
     protected readonly HttpClient _httpClient;
+
+    public virtual string Uri { get; set; } = string.Empty;
 
     public BaseClient(HttpClient httpClient)
     {
@@ -53,10 +57,18 @@ public class BaseClient<T> where T : class
     {
         var fullUrl = $"{url}/{id}";
         var response = await _httpClient.GetFromJsonAsync<T>(fullUrl);
-        
+
 
         return response ?? throw new Exception($"Entity with ID {id} not found at {fullUrl}");
 
+    }
+
+
+
+    public async Task DeleteAsync(int id)
+    {
+        string url = $"{Uri}/{id}";
+        var response = await _httpClient.DeleteAsync(url);
     }
 
 

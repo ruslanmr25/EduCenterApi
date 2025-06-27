@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EduCenterApi.Domain.Entities;
+
 [Table("users")]
 public class User
 {
@@ -19,9 +20,11 @@ public class User
     public int? RoleId { get; set; }
     public Role Role { get; set; }
 
-    
 
-    public  List<TeacherCenter> TeacherCenters { get; set; }
+
+    public List<TeacherCenter> TeacherCenters { get; set; }
+    
+    public Center? Center { get; set; }
 
 }
     

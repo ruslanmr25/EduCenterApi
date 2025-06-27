@@ -1,0 +1,45 @@
+﻿@* <button class="dropdown-item" @onclick="HandleSubmitAsync">
+     <i class="feather feather-trash-2 me-3"></i>
+     <span>O'chirish</span>
+</button> *@
+
+
+<EditForm Model="@model" FormName="@formName" OnValidSubmit="HandleSubmitAsync">
+
+
+     <button type="submit" class="btn btn-danger">O'chirish</button>
+</EditForm>
+@typeparam T where T : class
+
+@code
+{
+     [Parameter]
+     public int Id { get; set; }
+     [Parameter]
+     public string Name { get; set; } = string.Empty;
+
+     [Parameter]
+     public required BaseClient<T> Client { get; set; }
+
+
+
+
+     protected string formName = string.Empty;
+
+
+     protected override void OnInitialized()
+     {
+          formName = $"deleteComponent/{Id}";
+     }
+     protected async Task HandleSubmitAsync()
+     {
+
+          Console.WriteLine("Surov keldi");
+          Console.WriteLine("________________________________________________________________");
+
+          await Client.DeleteAsync(Id);
+     }
+
+     protected object model = new();
+
+}
