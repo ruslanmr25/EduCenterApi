@@ -11,127 +11,131 @@
                               <hr class="mt-0">
                               <div class="card-body general-info">
 
-                                   <EditForm OnValidSubmit="HandleSubmitAsync" FormName="UpdateUser"
-                                        Model="@updateUserDto">
+                                   @if (updateUserDto is not null)
+                                   {
 
-                                        <DataAnnotationsValidator></DataAnnotationsValidator>
 
-                                        <div class="mb-5 d-flex align-items-center justify-content-between">
-                                             <h5 class="fw-bold mb-0 me-4">
-                                                  <span class="fs-20 d-block mb-2">Foydalanuvchi ma'lumotlari:</span>
-                                                  <span class="fs-16 fw-normal text-muted text-truncate-1-line">Quyidagilarning
-                                                       barchasini kiriting</span>
-                                             </h5>
-                                             <button class=" btn btn-primary" type="submit">Saqlash</button>
-                                        </div>
-                                        <div class="row mb-4 align-items-center">
-                                             <div class="col-lg-4">
-                                                  <label for="fullnameInput" class="fw-semibold">Name: </label>
+                                        <EditForm OnValidSubmit="HandleSubmitAsync" FormName="UpdateUser"
+                                             Model="@updateUserDto">
+
+                                             <DataAnnotationsValidator></DataAnnotationsValidator>
+
+                                             <div class="mb-5 d-flex align-items-center justify-content-between">
+                                                  <h5 class="fw-bold mb-0 me-4">
+                                                       <span class="fs-20 d-block mb-2">Foydalanuvchi ma'lumotlari:</span>
+                                                       <span class="fs-16 fw-normal text-muted text-truncate-1-line">Quyidagilarning
+                                                            barchasini kiriting</span>
+                                                  </h5>
+                                                  <button class=" btn btn-primary" type="submit">Saqlash</button>
                                              </div>
-                                             <div class="col-lg-8">
-                                                  <div class="input-group">
-                                                       <div class="input-group-text"><i class="feather-user"></i></div>
-                                                       <InputText @bind-Value="updateUserDto!.FullName"
-                                                            class="form-control" id="fullnameInput" placeholder="Name">
-                                                       </InputText>
-
+                                             <div class="row mb-4 align-items-center">
+                                                  <div class="col-lg-4">
+                                                       <label for="fullnameInput" class="fw-semibold">Name: </label>
                                                   </div>
-                                                  <ValidationMessage class="text-danger"
-                                                       For="@(() => updateUserDto.FullName)"></ValidationMessage>
+                                                  <div class="col-lg-8">
+                                                       <div class="input-group">
+                                                            <div class="input-group-text"><i class="feather-user"></i></div>
+                                                            <InputText @bind-Value="updateUserDto!.FullName"
+                                                                 class="form-control" id="fullnameInput" placeholder="Name">
+                                                            </InputText>
 
-                                             </div>
-                                        </div>
-
-                                        <div class="row mb-4 align-items-center">
-                                             <div class="col-lg-4">
-                                                  <label for="usernameInput" class="fw-semibold">Username: </label>
-                                             </div>
-                                             <div class="col-lg-8">
-                                                  <div class="input-group">
-                                                       <div class="input-group-text"><i class="feather-link-2"></i>
                                                        </div>
-                                                       <InputText @bind-Value="updateUserDto.Username"
-                                                            class="form-control" id="usernameInput"
-                                                            placeholder="Username"></InputText>
+                                                       <ValidationMessage class="text-danger"
+                                                            For="@(() => updateUserDto.FullName)"></ValidationMessage>
 
                                                   </div>
-                                                  <ValidationMessage class="text-danger"
-                                                       For="@(() => updateUserDto.Username)"></ValidationMessage>
                                              </div>
-                                        </div>
 
-                                        <div class="row mb-4 align-items-center">
-                                             <div class="col-lg-4">
-                                                  <label for="password" class="fw-semibold">Password: </label>
-                                             </div>
-                                             <div class="col-lg-8">
-                                                  <div class="input-group">
-                                                       <div class="input-group-text"><i class="feather-user"></i></div>
-                                                       <InputText typeof="password" @bind-Value="updateUserDto.Password"
-                                                            class="form-control" id="password" placeholder="Password">
-                                                       </InputText>
-
+                                             <div class="row mb-4 align-items-center">
+                                                  <div class="col-lg-4">
+                                                       <label for="usernameInput" class="fw-semibold">Username: </label>
                                                   </div>
-                                                  <ValidationMessage class="text-danger"
-                                                       For="@(() => updateUserDto.Password)"></ValidationMessage>
+                                                  <div class="col-lg-8">
+                                                       <div class="input-group">
+                                                            <div class="input-group-text"><i class="feather-link-2"></i>
+                                                            </div>
+                                                            <InputText @bind-Value="updateUserDto.Username"
+                                                                 class="form-control" id="usernameInput"
+                                                                 placeholder="Username"></InputText>
 
-                                             </div>
-                                        </div>
-
-
-
-
-
-                                        <div class="row mb-4 align-items-center">
-                                             <div class="col-lg-4">
-                                                  <label for="phoneInput" class="fw-semibold">Phone: </label>
-                                             </div>
-                                             <div class="col-lg-8">
-                                                  <div class="input-group">
-                                                       <div class="input-group-text"><i class="feather-phone"></i></div>
-                                                       <input type="text" class="form-control" id="phoneInput"
-                                                            placeholder="Phone">
+                                                       </div>
+                                                       <ValidationMessage class="text-danger"
+                                                            For="@(() => updateUserDto.Username)"></ValidationMessage>
                                                   </div>
                                              </div>
-                                        </div>
 
+                                             <div class="row mb-4 align-items-center">
+                                                  <div class="col-lg-4">
+                                                       <label for="password" class="fw-semibold">Password: </label>
+                                                  </div>
+                                                  <div class="col-lg-8">
+                                                       <div class="input-group">
+                                                            <div class="input-group-text"><i class="feather-user"></i></div>
+                                                            <InputText typeof="password" @bind-Value="updateUserDto.Password"
+                                                                 class="form-control" id="password" placeholder="Password">
+                                                            </InputText>
 
+                                                       </div>
+                                                       <ValidationMessage class="text-danger"
+                                                            For="@(() => updateUserDto.Password)"></ValidationMessage>
 
-
-                                        <div class="row mb-4 align-items-center">
-                                             <div class="col-lg-4">
-                                                  <label class="fw-semibold">Role: </label>
+                                                  </div>
                                              </div>
-                                             <div class="col-lg-8">
-                                                  <InputSelect @bind-Value="updateUserDto.RoleId" class="form-control"
-                                                       data-select2-selector="city">
-                                                       <option data-city="bg-danger" value="">-- Role tanlash --
-                                                       </option>
 
-                                                       @foreach (var role in Roles ?? [])
-                                                       {
 
-                                                            <option value="@role.Id" data-city="bg-primary">@role.Name
+
+
+
+                                             <div class="row mb-4 align-items-center">
+                                                  <div class="col-lg-4">
+                                                       <label for="phoneInput" class="fw-semibold">Phone: </label>
+                                                  </div>
+                                                  <div class="col-lg-8">
+                                                       <div class="input-group">
+                                                            <div class="input-group-text"><i class="feather-phone"></i></div>
+                                                            <input type="text" class="form-control" id="phoneInput"
+                                                                 placeholder="Phone">
+                                                       </div>
+                                                  </div>
+                                             </div>
+
+
+
+
+                                             <div class="row mb-4 align-items-center">
+                                                  <div class="col-lg-4">
+                                                       <label class="fw-semibold">Role: </label>
+                                                  </div>
+                                                  <div class="col-lg-8">
+                                                       <InputSelect @bind-Value="updateUserDto.RoleId" class="form-control"
+                                                            data-select2-selector="city">
+                                                            <option data-city="bg-danger" value="">-- Role tanlash --
                                                             </option>
-                                                       }
+
+                                                            @foreach (var role in Roles ?? [])
+                                                            {
+
+                                                                 <option value="@role.Id" data-city="bg-primary">@role.Name
+                                                                 </option>
+                                                            }
 
 
-                                                  </InputSelect>
+                                                       </InputSelect>
 
 
-                                                  <ValidationMessage class="text-danger"
-                                                       For="@(() => updateUserDto.RoleId)"></ValidationMessage>
+                                                       <ValidationMessage class="text-danger"
+                                                            For="@(() => updateUserDto.RoleId)"></ValidationMessage>
+                                                  </div>
                                              </div>
-                                        </div>
 
-                                   </EditForm>
+                                        </EditForm>
+                                   }
 
                               </div>
                          </div>
                     </div>
                </div>
           </div>
-          <!-- [ Main Content ] end -->
      </div>
 
 
@@ -155,7 +159,7 @@
 
 
      [SupplyParameterFromForm]
-     protected UpdateUserDto? updateUserDto { get; set;}=new();
+     protected UpdateUserDto? updateUserDto { get; set; }
 
 
      protected IEnumerable<Role>? Roles { get; set; }
@@ -174,7 +178,9 @@
                return;
           }
 
-          updateUserDto = new UpdateUserDto
+          
+
+          updateUserDto ??= new UpdateUserDto
           {
                FullName = user.FullName,
                Username = user.Username,
@@ -203,14 +209,8 @@
      {
 
 
-
           ArgumentNullException.ThrowIfNull(updateUserDto);
-
           await UserClient.UpdateAsync(Id, updateUserDto);
-
-
-
-
           NavigationManager.NavigateTo("/super-admin/users");
 
 

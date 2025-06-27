@@ -42,6 +42,11 @@ public class UserController : ControllerBase
         return Ok();
     }
 
+    [HttpGet("{id}")]
+    public async Task<ActionResult<User?>> Show(int id)
+    {
+        return await _userRepository.GetByIdAsync(id);
+    }
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(int id, UpdateUserDto userDto)
     {

@@ -5,14 +5,28 @@
 
 <body>
 
-    <SuperAdminNavbar>
 
-    </SuperAdminNavbar>
+	@if (role == "Superadmin")
+	{
+
+		<SuperAdminNavbar>
+
+		</SuperAdminNavbar>
+	}
+
+	elseif(role=="CenterAdmin")
+	{
+	<CenterAdminNavbar>
+
+	</CenterAdminNavbar>
+	}
 
 
 
-    <Header></Header>
-    @Body
+
+
+	<Header></Header>
+	@Body
 
 
 	<!-- [ Footer ] start -->
@@ -32,3 +46,12 @@
 	<!-- [ Footer ] end -->
 
 </body>
+
+
+
+@code {
+
+	string role = "CenterAdmin";
+
+
+}
