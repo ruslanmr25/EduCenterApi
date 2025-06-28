@@ -4,6 +4,8 @@
 </button> *@
 
 
+
+
 <EditForm Model="@model" FormName="@formName" OnValidSubmit="HandleSubmitAsync">
 
 
@@ -34,11 +36,12 @@
      protected async Task HandleSubmitAsync()
      {
 
-          Console.WriteLine("Surov keldi");
-          Console.WriteLine("________________________________________________________________");
 
           await Client.DeleteAsync(Id);
-     }
+
+
+
+}
 
      protected object model = new();
 

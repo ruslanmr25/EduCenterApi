@@ -9,37 +9,39 @@ public class CenterClient(HttpClient httpClient) : BaseClient<Center>(httpClient
 {
 
 
-    public string uri = "/api/super-admin/centers";
+    public override string Uri { get; set; } = "/api/super-admin/centers";
+
 
 
 
     public async Task<PaginatedResponse<Center>> GetAllAsync(int pageIndex = 1, int pageSize = 40)
     {
 
-        return await base.GetAllAsync(uri, pageIndex, pageSize);
+        return await base.GetAllAsync(Uri, pageIndex, pageSize);
     }
 
 
     public async Task CreateAsync(CreateCenterDto center)
     {
-        await base.CreateAsync<CreateCenterDto>(uri, center);
+        await base.CreateAsync<CreateCenterDto>(Uri, center);
     }
     public async Task UpdateAsync(int Id, UpdateCenterDto centerDto)
     {
-        var url = $"{uri}/{Id}";
+        var url = $"{Uri}/{Id}";
 
-        Console.WriteLine("_________________________________________");
-
-        Console.WriteLine(url);
-        Console.WriteLine(centerDto.Name);
+      
         await base.UpdateAsync<UpdateCenterDto>(url, centerDto);
     }
 
     public async Task<Center> GetCenterByIdAsync(int id)
     {
 
-        return await base.GetByIdAsync(id, uri);
+        return await base.GetByIdAsync(id, Uri);
     }
+
+    
+  
+
 
 
 }

@@ -6,13 +6,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EduCenterApi.Controllers.CenterAdmin;
 
-[Route("api/center-admin/[controller]")]
+[Route("api/center-admin/sciences")]
 [ApiController]
 public class ScienceController : ControllerBase
 {
 
 
-    protected int CenterId = 1;
+    protected int CenterId = 6;
 
     protected readonly IScienceRepository _scienceRepository;
 
@@ -28,13 +28,9 @@ public class ScienceController : ControllerBase
 
 
     [HttpGet]
-    public async Task<IActionResult> Index(int page=1,int pageSize=40)
+    public async Task<IActionResult> Index(int page = 1, int pageSize = 40)
     {
-
-
-        return Ok(await _scienceRepository.GetAllCenterScienceAsync(CenterId,page, pageSize));
-
-
+        return Ok(await _scienceRepository.GetAllCenterScienceAsync(CenterId, page, pageSize));
     }
     [HttpPost]
     public async Task<IActionResult> Create(CreateScienceDto scienceDto)
@@ -50,7 +46,7 @@ public class ScienceController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async  Task<IActionResult> Update(int id, UpdateScienceDto scienceDto)
+    public async Task<IActionResult> Update(int id, UpdateScienceDto scienceDto)
     {
 
 
@@ -63,6 +59,20 @@ public class ScienceController : ControllerBase
         await _scienceRepository.UpdateAsync(science);
         return Ok();
     }
+
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> Show(int id)
+    {
+        Since? science = await _scienceRepository.GetByIdAsync(id);
+        if (science == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(science);
+    }
+
 
 
 }

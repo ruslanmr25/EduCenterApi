@@ -1,4 +1,4 @@
-﻿@page "/super-admin/users"
+﻿@page "/super-admin/sciences"
 
 
 <PageTitle>Users</PageTitle>
@@ -21,9 +21,9 @@
 </HeadContent>
 
 
-@if (Users is null)
+@if (Sciences is null)
 {
-    <div class="text-center p-5">
+    <div class="text-Science p-5">
         <div class="spinner-border text-primary" role="status">
             <span class="visually-hidden">Loading...</span>
         </div>
@@ -37,7 +37,7 @@ else
         <div class="nxl-content">
             <!-- [ page-header ] start -->
             <div class="page-header">
-                <div class="page-header-left d-flex align-items-center">
+                <div class="page-header-left d-flex align-items-Science">
                     <div class="page-header-title">
                         <h5 class="m-b-10">Leads</h5>
                     </div>
@@ -54,7 +54,7 @@ else
                                 <span>Back</span>
                             </a>
                         </div>
-                        <div class="d-flex align-items-center gap-2 page-header-right-items-wrapper">
+                        <div class="d-flex align-items-Science gap-2 page-header-right-items-wrapper">
 
                             <div class="dropdown">
                                 <a class="btn btn-icon btn-light-brand" data-bs-toggle="dropdown" data-bs-offset="0, 10"
@@ -140,7 +140,7 @@ else
                             </a>
                         </div>
                     </div>
-                    <div class="d-md-none d-flex align-items-center">
+                    <div class="d-md-none d-flex align-items-Science">
                         <a href="javascript:void(0)" class="page-header-right-open-toggle">
                             <i class="feather-align-right fs-20"></i>
                         </a>
@@ -175,17 +175,16 @@ else
                                                     </div>
                                                 </th>
                                                 <th>Id</th>
-                                                <th>Ismi</th>
-                                                <th>Roli</th>
-                                                <th>Markazi</th>
-                                                <th>Phone</th>
+                                                <th>Nomi</th>
+                                              
+
                                                 <th>Status</th>
                                                 <th class="text-end">Actions</th>
                                             </tr>
                                         </thead>
                                         <tbody>
 
-                                            @foreach (User user in Users)
+                                            @foreach (Since science in Sciences)
                                             {
 
 
@@ -203,19 +202,12 @@ else
 
 
                                                         <div>
-                                                            <span class="text-truncate-1-line">@user.Id</span>
+                                                            <span class="text-truncate-1-line">@science.Id</span>
                                                         </div>
 
                                                     </td>
-                                                    <td>@user.FullName</td>
-                                                    <td>
-                                                        <div class="hstack gap-2">
-
-                                                            @user.Role.Name
-                                                        </div>
-                                                    </td>
-                                                    <td>@(user.Center?.Name ?? "Mavjud emas")</td>
-                                                    <td><a href="tel:">(375) 9632 548</a></td>
+                                                    <td>@science.Name</td>
+                                                    
 
 
                                                     <td>
@@ -238,7 +230,7 @@ else
                                                                 <ul class="dropdown-menu">
                                                                     <li>
                                                                         <a class="dropdown-item"
-                                                                            href="@($"/super-admin/users/{user.Id}/edit")">
+                                                                            href=@($"/super-admin/sciences/{@science.Id}/edit")>
                                                                             <i class="feather feather-edit-3 me-3"></i>
                                                                             <span>Edit</span>
                                                                         </a>
@@ -247,9 +239,9 @@ else
                                                                     <li class="dropdown-divider"></li>
                                                                     <li>
 
-                                                                        <EditForm Model="@user"
-                                                                            FormName="@("form"+user.FullName)"
-                                                                            OnValidSubmit="()=>HandleSubmitAsync(user)">
+                                                                        <EditForm Model="@science"
+                                                                            FormName="@("form"+science.Name)"
+                                                                            OnValidSubmit="()=>HandleSubmitAsync(science)">
 
 
                                                                             <button type="submit" class="dropdown-item"><i
@@ -283,10 +275,10 @@ else
 
 
 }
-@inject UserClient UserClient
 
+@inject ScienceClient ScienceClient
 @code {
-    protected List<User>? Users { get; set; }
+    protected List<Since>? Sciences { get; set; }
 
 
 
@@ -294,28 +286,23 @@ else
     protected override async Task OnInitializedAsync()
     {
 
-        ArgumentNullException.ThrowIfNull(UserClient);
-        var result = await UserClient.GetAllAsync();
+        ArgumentNullException.ThrowIfNull(ScienceClient);
+        var result = await ScienceClient.GetAllAsync();
 
-        Users = result.Items?.ToList() ?? [];
+        Sciences = result.Items?.ToList() ?? [];
         StateHasChanged();
     }
 
 
-
-    protected async Task HandleSubmitAsync(User user)
+    protected async Task HandleSubmitAsync(Since Science)
     {
 
 
-        await UserClient.DeleteAsync(user.Id);
+        await ScienceClient.DeleteAsync(Science.Id);
 
         await OnInitializedAsync();
 
-
-
-
     }
-
 
 
 }

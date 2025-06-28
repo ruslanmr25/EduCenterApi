@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace EduCenterApi.Domain.Entities;
 
@@ -18,13 +19,15 @@ public class User
     public required string Password { get; set; }
     [Column("role_id")]
     public int? RoleId { get; set; }
+    [JsonIgnore]
+
     public Role Role { get; set; }
 
 
-
+    [JsonIgnore]
     public List<TeacherCenter> TeacherCenters { get; set; }
-    
+    [JsonIgnore]
+
     public Center? Center { get; set; }
 
 }
-    

@@ -10,7 +10,7 @@ namespace EduCenter.Frontend.Clients;
 public class UserClient(HttpClient httpClient) : BaseClient<User>(httpClient), IClient
 {
 
-    public override string Uri { get; set; } = "/api/super-admin/users";
+    public override string Uri { get; set; } = "/api/super-admin/users";    
 
 
 
@@ -19,6 +19,19 @@ public class UserClient(HttpClient httpClient) : BaseClient<User>(httpClient), I
 
         return await base.GetAllAsync(Uri, pageIndex, pageSize);
     }
+
+    public async Task<PaginatedResponse<User>> GetAllCenterAdmins(int pageIndex = 1, int pageSize = 40)
+    {
+        var fullUrl = $"{Uri}/center-admins?pageIndex={pageIndex}&pageSize={pageSize}";
+
+
+        var response = await _httpClient.GetFromJsonAsync<PaginatedResponse<User>>(fullUrl);
+
+        return response ?? new PaginatedResponse<User>();
+
+    }
+
+
 
 
     public async Task CreateAsync(CreateUserDto user)

@@ -68,6 +68,8 @@ public abstract class BaseClient<T> : IClient where T : class
     public async Task DeleteAsync(int id)
     {
         string url = $"{Uri}/{id}";
+
+        
         var response = await _httpClient.DeleteAsync(url);
     }
 

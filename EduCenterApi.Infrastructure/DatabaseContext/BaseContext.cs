@@ -2,6 +2,7 @@
 
 using EduCenterApi.Domain.Entities;
 namespace EduCenterApi.Infrastructure.DatabaseContext;
+
 public class BaseContext : DbContext
 {
     public BaseContext(DbContextOptions<BaseContext> options) : base(options) { }
@@ -10,15 +11,15 @@ public class BaseContext : DbContext
     {
 
         base.OnConfiguring(optionsBuilder);
-    
+
     }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
         modelBuilder.Entity<Role>().HasData(
-            new Role { Id=3, Name = "Teacher" },
-            new Role { Id=2,Name = "CenterAdmin" },
-            new Role { Id=1,Name = "SuperAdmin" }
+            new Role { Id = 3, Name = "Teacher" },
+            new Role { Id = 2, Name = "CenterAdmin" },
+            new Role { Id = 1, Name = "SuperAdmin" }
 
 
             );
@@ -26,8 +27,8 @@ public class BaseContext : DbContext
 
         modelBuilder.Entity<User>().HasData(
 
-            new User {  Id=-1, FullName="Center Admin", Password = "123", RoleId = 2, Username = "ruslan" },
-            new User {  Id=1, FullName="Teacher", Password = "123", RoleId =3, Username = "teacher" }
+            new User { Id = -1, FullName = "Center Admin", Password = "123", RoleId = 2, Username = "ruslan" },
+            new User { Id = 1, FullName = "Teacher", Password = "123", RoleId = 3, Username = "teacher" }
 
             );
 
@@ -36,7 +37,7 @@ public class BaseContext : DbContext
             );
 
         modelBuilder.Entity<Since>().HasData(
-            new Since { Id = 1, Name = "matematika", CenterId=1 }
+            new Since { Id = 1, Name = "matematika", CenterId = 1 }
             );
 
         //modelBuilder.Entity<Group>().HasData(
@@ -70,9 +71,9 @@ public class BaseContext : DbContext
 
     public DbSet<TeacherCenter> TeacherCenters { get; set; }
 
-    public DbSet<Student> Students { get; set; }    
+    public DbSet<Student> Students { get; set; }
 
-    public DbSet<StudentPaymentSycle> StudentPaymentSycles { get;set; }
+    public DbSet<StudentPaymentSycle> StudentPaymentSycles { get; set; }
 
     public DbSet<StudentPayment> StudentPayments { get; set; }
 

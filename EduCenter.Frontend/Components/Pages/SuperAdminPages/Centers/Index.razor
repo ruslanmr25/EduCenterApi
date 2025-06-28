@@ -175,7 +175,9 @@ else
                                                     </div>
                                                 </th>
                                                 <th>Id</th>
-                                                <th>Name</th>
+                                                <th>Nomi</th>
+                                                <th>Admin</th>
+
                                                 <th>Status</th>
                                                 <th class="text-end">Actions</th>
                                             </tr>
@@ -205,6 +207,8 @@ else
 
                                                     </td>
                                                     <td>@center.Name</td>
+                                                    <td>@center.Admin?.FullName</td>
+
 
                                                     <td>
                                                         <select class="form-control" data-select2-selector="status">
@@ -234,10 +238,17 @@ else
 
                                                                     <li class="dropdown-divider"></li>
                                                                     <li>
-                                                                        <a class="dropdown-item" href="javascript:void(0)">
-                                                                            <i class="feather feather-trash-2 me-3"></i>
-                                                                            <span>Delete</span>
-                                                                        </a>
+
+                                                                        <EditForm Model="@center"
+                                                                            FormName="@("form"+center.Name)"
+                                                                            OnValidSubmit="()=>HandleSubmitAsync(center)">
+
+
+                                                                            <button type="submit" class="dropdown-item"><i
+                                                                                    class="feather feather-trash-2 me-3"></i>
+                                                                                <span>O'chirish</span></button>
+                                                                        </EditForm>
+
                                                                     </li>
                                                                 </ul>
                                                             </div>
@@ -265,11 +276,11 @@ else
 
 }
 
+@inject CenterClient CenterClient
 @code {
     protected List<Center>? Centers { get; set; }
 
 
-    [Inject] private CenterClient? CenterClient { get; set; }
 
 
     protected override async Task OnInitializedAsync()
@@ -279,7 +290,19 @@ else
         var result = await CenterClient.GetAllAsync();
 
         Centers = result.Items?.ToList() ?? [];
-        StateHasChanged(); 
+        StateHasChanged();
     }
+
+
+    protected async Task HandleSubmitAsync(Center center)
+    {
+
+
+        await CenterClient.DeleteAsync(center.Id);
+
+        await OnInitializedAsync();
+
+    }
+
 
 }

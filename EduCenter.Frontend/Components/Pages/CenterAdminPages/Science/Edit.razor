@@ -1,0 +1,119 @@
+﻿@page "/super-admin/sciences/{Id:int}/edit"
+
+@attribute [StreamRendering]
+<main class="nxl-container">
+     <div class="nxl-content">
+
+
+          <div class="main-content">
+               <div class="row">
+                    <div class="col-lg-12">
+                         <div class="card stretch stretch-full">
+
+                              <hr class="mt-0">
+                              <div class="card-body general-info">
+                                   @if (UpdateScienceDto is not null)
+                                   {
+
+                                        <EditForm OnValidSubmit="HandleSubmitAsync" FormName="CreateScience" Enhance
+                                             Model="@UpdateScienceDto">
+
+                                             <DataAnnotationsValidator></DataAnnotationsValidator>
+
+                                             <div class="mb-5 d-flex align-items-Science justify-content-between">
+                                                  <h5 class="fw-bold mb-0 me-4">
+                                                       <span class="fs-20 d-block mb-2">Fan ma'lumotlarini tahrirlash:</span>
+
+                                                  </h5>
+                                                  <button class=" btn btn-primary" type="submit">Saqlash</button>
+                                             </div>
+                                             <div class="row mb-4 align-items-Science">
+                                                  <div class="col-lg-4">
+                                                       <label for="fullnameInput" class="fw-semibold">Fan nomi: </label>
+                                                  </div>
+
+
+
+                                                  <div class="col-lg-8">
+                                                       <div class="input-group">
+                                                            <div class="input-group-text"><i class="feather-user"></i></div>
+                                                            <InputText @bind-Value="UpdateScienceDto.Name"
+                                                                 class="form-control" id="fullnameInput"
+                                                                 placeholder="Fan nomi">
+                                                            </InputText>
+
+                                                       </div>
+                                                       <ValidationMessage class="text-danger"
+                                                            For="@(() => UpdateScienceDto.Name)">
+                                                       </ValidationMessage>
+
+                                                  </div>
+                                             </div>
+
+
+
+
+
+
+                                        </EditForm>
+                                   }
+
+
+                              </div>
+                         </div>
+                    </div>
+               </div>
+          </div>
+          <!-- [ Main Content ] end -->
+     </div>
+
+
+</main>
+
+
+
+@inject ScienceClient ScienceClient
+
+@inject NavigationManager NavigationManager
+@code {
+
+     [Parameter]
+
+     public int Id { get; set; }
+
+     [SupplyParameterFromForm]
+     protected UpdateScienceDto? UpdateScienceDto { get; set; }
+
+     protected async Task HandleSubmitAsync()
+     {
+
+          ArgumentNullException.ThrowIfNull(UpdateScienceDto);
+
+          await ScienceClient.UpdateAsync(Id, UpdateScienceDto);
+
+
+          NavigationManager.NavigateTo("/super-admin/sciences");
+
+
+     }
+
+
+     protected override async Task OnParametersSetAsync()
+     {
+          if (UpdateScienceDto is null)
+          {
+
+               Since sience = await ScienceClient.GetScienceByIdAsync(Id);
+
+               UpdateScienceDto = new UpdateScienceDto
+               {
+                    Name = sience.Name,
+
+               };
+          }
+
+
+
+     }
+
+}

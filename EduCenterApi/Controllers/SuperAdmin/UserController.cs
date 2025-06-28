@@ -32,6 +32,13 @@ public class UserController : ControllerBase
 
     }
 
+    [HttpGet("center-admins")]
+    public async Task<IActionResult> CenterAdmins(int page = 1, int pageSize = 40)
+    {
+        return Ok(await _userRepository.GetSenterAdmins(page, pageSize));
+
+    }
+
     [HttpPost]
     public async Task<IActionResult> Create(CreateUserDto userDto)
     {
@@ -68,12 +75,12 @@ public class UserController : ControllerBase
     }
 
 
-    //[HttpDelete("{id}")]
-    //public async Task<IActionResult> Delete(int id)
-    //{
-    //    await _userRepository.DeleteAsync(id);
-    //    return Ok();
-    //}
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        await _userRepository.DeleteAsync(id);
+        return Ok();
+    }
 
 
 }

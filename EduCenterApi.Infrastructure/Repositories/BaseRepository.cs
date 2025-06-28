@@ -16,7 +16,7 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
         _context = baseContext;
     }
 
-    public async Task<PagedResult<T>> GetAllAsync(int page, int pageSize)
+    public virtual async Task<PagedResult<T>> GetAllAsync(int page, int pageSize)
     {
         var query = _context.Set<T>().AsQueryable();
         var totalCount = await query.CountAsync();

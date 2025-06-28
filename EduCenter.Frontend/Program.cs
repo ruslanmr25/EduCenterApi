@@ -23,6 +23,14 @@ builder.Services.AddHttpClient<CenterClient>(client =>
 {
     client.BaseAddress = new Uri(baseAddress);
 });
+builder.Services.AddHttpClient<ScienceClient>(client =>
+{
+    client.BaseAddress = new Uri(baseAddress);
+});
+
+
+
+
 
 var app = builder.Build();
 
