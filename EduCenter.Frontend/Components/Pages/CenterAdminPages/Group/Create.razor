@@ -1,4 +1,4 @@
-﻿@page "/center-admin/sciences/create"
+﻿@page "/center-admin/groups/create"
 
 
 <main class="nxl-container">
@@ -14,13 +14,13 @@
                               <div class="card-body general-info">
 
                                    <EditForm OnValidSubmit="HandleSubmitAsync" FormName="CreateScience" Enhance
-                                        Model="@CreateScienceDto">
+                                        Model="@CreateGroupDto">
 
                                         <DataAnnotationsValidator></DataAnnotationsValidator>
 
                                         <div class="mb-5 d-flex align-items-Science justify-content-between">
                                              <h5 class="fw-bold mb-0 me-4">
-                                                  <span class="fs-20 d-block mb-2">Fan ma'lumotlari:</span>
+                                                  <span class="fs-20 d-block mb-2">Guruh ma'lumotlari:</span>
                                                   <span class="fs-16 fw-normal text-muted text-truncate-1-line">Quyidagilarning
                                                        barchasini kiriting</span>
                                              </h5>
@@ -28,7 +28,7 @@
                                         </div>
                                         <div class="row mb-4 align-items-Science">
                                              <div class="col-lg-4">
-                                                  <label for="fullnameInput" class="fw-semibold">Fan nomi: </label>
+                                                  <label for="fullnameInput" class="fw-semibold">Guruh nomi: </label>
                                              </div>
 
 
@@ -36,13 +36,29 @@
                                              <div class="col-lg-8">
                                                   <div class="input-group">
                                                        <div class="input-group-text"><i class="feather-user"></i></div>
-                                                       <InputText @bind-Value="CreateScienceDto.Name"
-                                                            class="form-control" id="fullnameInput" placeholder="Fan nomi">
+                                                       <InputText @bind-Value="CreateGroupDto.Name" class="form-control"
+                                                            id="fullnameInput" placeholder="Fan nomi">
                                                        </InputText>
 
                                                   </div>
                                                   <ValidationMessage class="text-danger"
-                                                       For="@(() => CreateScienceDto.Name)">
+                                                       For="@(() => CreateGroupDto.Name)">
+                                                  </ValidationMessage>
+
+                                             </div>
+
+
+
+                                             <div class="col-lg-8">
+                                                  <div class="input-group">
+                                                       <div class="input-group-text"><i class="feather-user"></i></div>
+                                                       <InputText @bind-Value="CreateGroupDto.Name" class="form-control"
+                                                            id="fullnameInput" placeholder="Fan nomi">
+                                                       </InputText>
+
+                                                  </div>
+                                                  <ValidationMessage class="text-danger"
+                                                       For="@(() => CreateGroupDto.Name)">
                                                   </ValidationMessage>
 
                                              </div>
@@ -68,6 +84,9 @@
 
 
 
+@inject GroupClient GroupClient
+@inject TeacherClient TeacherClient
+
 @inject ScienceClient ScienceClient
 
 @inject NavigationManager NavigationManager
@@ -75,18 +94,18 @@
 
 
      [SupplyParameterFromForm]
-     protected CreateScienceDto CreateScienceDto { get; set; } = new CreateScienceDto();
+     protected CreateGroupDto CreateGroupDto { get; set; } = new CreateGroupDto();
 
      protected async Task HandleSubmitAsync()
      {
 
 
-          ArgumentNullException.ThrowIfNull(ScienceClient);
+          ArgumentNullException.ThrowIfNull(GroupClient);
 
-          await ScienceClient.CreateAsync(CreateScienceDto);
+          await GroupClient.CreateAsync(CreateGroupDto);
 
-   
-          NavigationManager.NavigateTo("/super-admin/sciences");
+
+          NavigationManager.NavigateTo("/super-admin/groups");
 
 
      }

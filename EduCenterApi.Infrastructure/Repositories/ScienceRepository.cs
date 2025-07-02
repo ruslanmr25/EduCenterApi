@@ -14,10 +14,10 @@ public class ScienceRepository : BaseRepository<Since>, IScienceRepository
 
 
 
-    public async Task<PagedResult<Since>> GetAllCenterScienceAsync(int centerId,int page, int pageSize)
+    public async Task<PagedResult<Since>> GetAllCenterScienceAsync(int centerId, int page, int pageSize)
     {
         var query = _context.Set<Since>().AsQueryable();
-        query=query.Where(s=>s.CenterId == centerId);
+        query = query.Where(s => s.CenterId == centerId);
 
         var totalCount = await query.CountAsync();
         var result = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();

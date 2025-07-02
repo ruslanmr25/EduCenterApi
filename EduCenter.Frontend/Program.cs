@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using EduCenter.Frontend.Clients;
 using EduCenter.Frontend.Components;
 
@@ -28,7 +29,18 @@ builder.Services.AddHttpClient<ScienceClient>(client =>
     client.BaseAddress = new Uri(baseAddress);
 });
 
+builder.Services.AddHttpClient<TeacherClient>(client =>
+{
+    client.BaseAddress = new Uri(baseAddress);
+});
 
+
+
+
+builder.Services.AddHttpClient<GroupClient>(client =>
+{
+    client.BaseAddress = new Uri(baseAddress);
+});
 
 
 

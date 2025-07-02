@@ -12,6 +12,17 @@ public class GroupRepository : BaseRepository<Group>, IGroupRepository
     {
     }
 
+    public override async Task<PagedResult<Group>> GetAllAsync(int page, int pageSize)
+    {
+        var query = _context.Set<Group>().AsQueryable().Include(g=>g.Teacher);
+        var totalCount = await query.CountAsync();
+
+        var result = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+
+        return new PagedResult<Group>(result, totalCount, page, pageSize);
+
+    }
+
 
 
     public async Task<PagedResult<Group>> GetAllByCenterIdAsync(int centerId, int page, int pageSize)

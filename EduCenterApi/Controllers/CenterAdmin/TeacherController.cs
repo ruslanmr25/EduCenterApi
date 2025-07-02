@@ -8,12 +8,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace EduCenterApi.Controllers.CenterAdmin
 {
 
-    [Route("api/center-admin/[controller]")]
+    [Route("api/center-admin/teachers")]
     [ApiController]
     public class TeacherController : ControllerBase
     {
 
-        protected int CenterId = 1;
+        protected int CenterId = 4;
 
         protected readonly IUserRepository _userRepository;
 
@@ -58,6 +58,20 @@ namespace EduCenterApi.Controllers.CenterAdmin
 
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Show(int id)
+        {
+            User? user = await _userRepository.GetByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(user);
+        }
+
+
+
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, UpdateTeacherDto updateTeacherDto)
@@ -73,6 +87,16 @@ namespace EduCenterApi.Controllers.CenterAdmin
                 user.Password = _passwordHasher.Hashing(updateTeacherDto.Password);
             }
             await _userRepository.UpdateAsync(user);
+            return Ok();
+        }
+
+
+        [HttpDelete("{id}")]
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _userRepository.DeleteAsync(id);
+
             return Ok();
         }
     }

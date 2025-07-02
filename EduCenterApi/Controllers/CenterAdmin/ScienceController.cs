@@ -12,7 +12,7 @@ public class ScienceController : ControllerBase
 {
 
 
-    protected int CenterId = 6;
+    protected int CenterId = 4;
 
     protected readonly IScienceRepository _scienceRepository;
 
@@ -21,6 +21,7 @@ public class ScienceController : ControllerBase
     public ScienceController(IScienceRepository scienceRepository, IMapper mapper)
     {
         //Writre middle to only admin change own center science
+        //and other admins cannot change others science
         _scienceRepository = scienceRepository;
         _mapper = mapper;
     }
@@ -71,6 +72,16 @@ public class ScienceController : ControllerBase
         }
 
         return Ok(science);
+    }
+
+
+    [HttpDelete("{id}")]
+
+    public async Task<IActionResult> Delete(int id)
+    {
+        await _scienceRepository.DeleteAsync(id);
+
+        return Ok();
     }
 
 

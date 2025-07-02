@@ -6,12 +6,12 @@ using EduCenterApi.Domain.Entities;
 
 namespace EduCenterApi.Controllers.CenterAdmin;
 
-[Route("api/center-admin/[controller]")]
+[Route("api/center-admin/groups")]
 [ApiController]
 public class GroupController : ControllerBase
 {
 
-    protected int CenterId = 1;
+    protected int CenterId = 4;
 
     protected readonly IMapper _mapper;
 
@@ -29,7 +29,7 @@ public class GroupController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> Index(int page = 1, int pageSize = 40)
     {
-        return Ok(await _groupRepository.GetAllByCenterIdAsync(CenterId,page, pageSize));
+        return Ok(await _groupRepository.GetAllByCenterIdAsync(CenterId, page, pageSize));
     }
 
 
@@ -50,7 +50,7 @@ public class GroupController : ControllerBase
     public async Task<IActionResult> Show(int id)
     {
         Group? group = await _groupRepository.GetByIdAsync(id);
-        if(group==null)
+        if (group == null)
         {
             return NotFound();
         }
@@ -60,11 +60,11 @@ public class GroupController : ControllerBase
 
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update(int id,UpdateGroupDto groupDto)
+    public async Task<IActionResult> Update(int id, UpdateGroupDto groupDto)
     {
 
-        Group? group =await _groupRepository.GetByIdAsync(id);
-        if(group==null)
+        Group? group = await _groupRepository.GetByIdAsync(id);
+        if (group == null)
         {
             return NotFound();
         }
@@ -76,5 +76,14 @@ public class GroupController : ControllerBase
 
         return Ok();
     }
+    
+      [HttpDelete("{id}")]
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _groupRepository.DeleteAsync(id);
+
+            return Ok();
+        }
 
 }

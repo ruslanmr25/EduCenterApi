@@ -21,7 +21,7 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
         var query = _context.Set<T>().AsQueryable();
         var totalCount = await query.CountAsync();
 
-        var result = await query.Skip((page-1)*pageSize).Take(pageSize).ToListAsync();
+        var result = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
 
         return new PagedResult<T>(result, totalCount, page, pageSize);
 

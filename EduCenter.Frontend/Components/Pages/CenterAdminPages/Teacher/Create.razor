@@ -1,0 +1,144 @@
+﻿@page "/center-admin/teachers/create"
+
+
+
+
+
+<main class="nxl-container">
+     <div class="nxl-content">
+
+
+          <div class="main-content">
+               <div class="row">
+                    <div class="col-lg-12">
+                         <div class="card stretch stretch-full">
+
+                              <hr class="mt-0">
+                              <div class="card-body general-info">
+
+                                   <EditForm OnValidSubmit="HandleSubmitAsync" FormName="Create-Teacher" Enhance
+                                        Model="@CreateTeacherDto">
+
+                                        <DataAnnotationsValidator></DataAnnotationsValidator>
+
+                                        <div class="mb-5 d-flex align-items-center justify-content-between">
+                                             <h5 class="fw-bold mb-0 me-4">
+                                                  <span class="fs-20 d-block mb-2">Foydalanuvchi ma'lumotlari:</span>
+                                                  <span class="fs-16 fw-normal text-muted text-truncate-1-line">Quyidagilarning
+                                                       barchasini kiriting</span>
+                                             </h5>
+                                             <button class=" btn btn-primary" type="submit">Saqlash</button>
+                                        </div>
+                                        <div class="row mb-4 align-items-center">
+                                             <div class="col-lg-4">
+                                                  <label for="fullnameInput" class="fw-semibold">Name: </label>
+                                             </div>
+                                             <div class="col-lg-8">
+                                                  <div class="input-group">
+                                                       <div class="input-group-text"><i class="feather-user"></i></div>
+                                                       <InputText @bind-Value="CreateTeacherDto.FullName"
+                                                            class="form-control" id="fullnameInput" placeholder="Name">
+                                                       </InputText>
+
+                                                  </div>
+                                                  <ValidationMessage class="text-danger"
+                                                       For="@(() => CreateTeacherDto.FullName)"></ValidationMessage>
+
+                                             </div>
+                                        </div>
+
+                                        <div class="row mb-4 align-items-center">
+                                             <div class="col-lg-4">
+                                                  <label for="usernameInput" class="fw-semibold">Username: </label>
+                                             </div>
+                                             <div class="col-lg-8">
+                                                  <div class="input-group">
+                                                       <div class="input-group-text"><i class="feather-link-2"></i>
+                                                       </div>
+                                                       <InputText @bind-Value="CreateTeacherDto.Username"
+                                                            class="form-control" id="usernameInput"
+                                                            placeholder="Username"></InputText>
+
+                                                  </div>
+                                                  <ValidationMessage class="text-danger"
+                                                       For="@(() => CreateTeacherDto.Username)"></ValidationMessage>
+                                             </div>
+                                        </div>
+
+                                        <div class="row mb-4 align-items-center">
+                                             <div class="col-lg-4">
+                                                  <label for="password" class="fw-semibold">Password: </label>
+                                             </div>
+                                             <div class="col-lg-8">
+                                                  <div class="input-group">
+                                                       <div class="input-group-text"><i class="feather-user"></i></div>
+                                                       <InputText typeof="password"
+                                                            @bind-Value="CreateTeacherDto.Password" class="form-control"
+                                                            id="password" placeholder="Password">
+                                                       </InputText>
+
+                                                  </div>
+                                                  <ValidationMessage class="text-danger"
+                                                       For="@(() => CreateTeacherDto.Password)"></ValidationMessage>
+
+                                             </div>
+                                        </div>
+
+
+
+
+
+                                        <div class="row mb-4 align-items-center">
+                                             <div class="col-lg-4">
+                                                  <label for="phoneInput" class="fw-semibold">Phone: </label>
+                                             </div>
+                                             <div class="col-lg-8">
+                                                  <div class="input-group">
+                                                       <div class="input-group-text"><i class="feather-phone"></i></div>
+                                                       <input type="text" class="form-control" id="phoneInput"
+                                                            placeholder="Phone">
+                                                  </div>
+                                             </div>
+                                        </div>
+
+
+
+
+
+
+                                   </EditForm>
+
+                              </div>
+                         </div>
+                    </div>
+               </div>
+          </div>
+          <!-- [ Main Content ] end -->
+     </div>
+
+
+</main>
+
+
+
+@inject TeacherClient TeacherClient
+@inject NavigationManager NavigationManager
+
+
+
+@code {
+
+
+     [SupplyParameterFromForm]
+     protected CreateTeacherDto CreateTeacherDto { get; set; } = new CreateTeacherDto();
+
+
+
+     protected async Task HandleSubmitAsync()
+     {
+          await TeacherClient.CreateAsync(CreateTeacherDto);
+          NavigationManager.NavigateTo("/center-admin/teachers");
+
+     }
+
+}
