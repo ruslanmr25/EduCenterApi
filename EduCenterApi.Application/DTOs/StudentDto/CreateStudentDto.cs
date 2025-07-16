@@ -1,4 +1,4 @@
-﻿
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using EduCenterApi.Domain.Entities;
 
@@ -6,19 +6,18 @@ namespace EduCenterApi.Application.DTOs.StudentDto;
 
 public class CreateStudentDto
 {
+    [Required(ErrorMessage = "Ism Familiya kiritilmagan")]
+    public string FullName { get; set; } = string.Empty;
 
+    [Required(ErrorMessage = "Telefon raqam kiritilmagan")]
+    public string Phone { get; set; } = string.Empty;
 
-    public required string FullName { get; set; }
-
-    public required string Phone { get; set; }
-
-  
     public string? FatherPhone { get; set; }
-   
+
     public string? MotherPhone { get; set; }
 
+    [MinLength(1, ErrorMessage = "Kamida bitta guruh tanlanishi kerak")]
+    public List<int> GroupIds { get; set; } = new();
 
-    public List<int> GroupIds { get; set; }
-
-    public DateOnly? BeginSycleDate { get; set; }
+    public DateOnly? BeginSycleDate { get; set; } = DateOnly.FromDateTime(DateTime.Now);
 }

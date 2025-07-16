@@ -1,4 +1,6 @@
 ﻿@page "/center-admin/groups/create"
+@rendermode @(new InteractiveServerRenderMode(prerender:false))
+
 
 
 <main class="nxl-container">
@@ -18,7 +20,9 @@
 
                                         <DataAnnotationsValidator></DataAnnotationsValidator>
 
-                                        <div class="mb-5 d-flex align-items-Science justify-content-between">
+                                        <ValidationSummary></ValidationSummary>
+
+                                        <div class="mb-5 d-flex align-items-group justify-content-between">
                                              <h5 class="fw-bold mb-0 me-4">
                                                   <span class="fs-20 d-block mb-2">Guruh ma'lumotlari:</span>
                                                   <span class="fs-16 fw-normal text-muted text-truncate-1-line">Quyidagilarning
@@ -26,7 +30,12 @@
                                              </h5>
                                              <button class=" btn btn-primary" type="submit">Saqlash</button>
                                         </div>
-                                        <div class="row mb-4 align-items-Science">
+
+
+
+
+
+                                        <div class="row mb-4 align-items-group">
                                              <div class="col-lg-4">
                                                   <label for="fullnameInput" class="fw-semibold">Guruh nomi: </label>
                                              </div>
@@ -49,19 +58,239 @@
 
 
 
+                                        </div>
+
+
+
+
+                                        <div class="row mb-4 align-items-center">
+                                             <div class="col-lg-4">
+                                                  <label class="fw-semibold">O'qituvchi: </label>
+                                             </div>
+                                             <div class="col-lg-8">
+                                                  <InputSelect @bind-Value="CreateGroupDto.TeacherId"
+                                                       class="form-control" data-select2-selector="city">
+                                                       <option data-city="bg-danger" value="">-- O'qituvchini tanlash --
+                                                       </option>
+
+                                                       @foreach (var teacher in teachers ?? [])
+                                                       {
+
+                                                            <option value="@teacher.Id" data-city="bg-primary">
+                                                                 @teacher.FullName
+                                                            </option>
+                                                       }
+
+
+                                                  </InputSelect>
+
+
+                                                  <ValidationMessage class="text-danger"
+                                                       For="@(() => CreateGroupDto.TeacherId)">
+                                                  </ValidationMessage>
+                                             </div>
+                                        </div>
+
+
+
+
+                                        <div class="row mb-4 align-items-center">
+                                             <div class="col-lg-4">
+                                                  <label class="fw-semibold">Fan: </label>
+                                             </div>
+                                             <div class="col-lg-8">
+                                                  <InputSelect @bind-Value="CreateGroupDto.SinceId" class="form-control"
+                                                       data-select2-selector="city">
+                                                       <option data-city="bg-danger" value="">-- Fanni tanlash --
+                                                       </option>
+
+                                                       @foreach (var since in sinces ?? [])
+                                                       {
+
+                                                            <option value="@since.Id" data-city="bg-primary">
+                                                                 @since.Name
+                                                            </option>
+                                                       }
+
+
+                                                  </InputSelect>
+
+
+                                                  <ValidationMessage class="text-danger"
+                                                       For="@(() => CreateGroupDto.SinceId)">
+                                                  </ValidationMessage>
+                                             </div>
+                                        </div>
+
+
+                                        <div class="row mb-4 align-items-group">
+                                             <div class="col-lg-4">
+                                                  <label for="fullnameInput" class="fw-semibold">Guruhning narxi (har
+                                                       bir bola uchun):
+                                                  </label>
+                                             </div>
+
+
+
                                              <div class="col-lg-8">
                                                   <div class="input-group">
                                                        <div class="input-group-text"><i class="feather-user"></i></div>
-                                                       <InputText @bind-Value="CreateGroupDto.Name" class="form-control"
-                                                            id="fullnameInput" placeholder="Fan nomi">
-                                                       </InputText>
+                                                       <InputNumber @bind-Value="CreateGroupDto.Price"
+                                                            class="form-control" id="fullnameInput"
+                                                            placeholder="Fan nomi">
+                                                       </InputNumber>
 
                                                   </div>
                                                   <ValidationMessage class="text-danger"
-                                                       For="@(() => CreateGroupDto.Name)">
+                                                       For="@(() => CreateGroupDto.Price)">
                                                   </ValidationMessage>
 
                                              </div>
+
+                                        </div>
+
+
+                                        <div class="row mb-4 align-items-group">
+                                             <div class="col-lg-4">
+                                                  <label for="fullnameInput" class="fw-semibold">Guruhning boshlanish
+                                                       sanasi:
+                                                  </label>
+                                             </div>
+
+
+
+                                             <div class="col-lg-8">
+                                                  <div class="input-group">
+                                                       <div class="input-group-text"><i class="feather-user"></i></div>
+                                                       <InputDate @bind-Value="CreateGroupDto.BeginDate"
+                                                            class="form-control" id="fullnameInput"
+                                                            placeholder="Fan nomi">
+                                                       </InputDate>
+
+
+
+                                                  </div>
+                                                  <ValidationMessage class="text-danger"
+                                                       For="@(() => CreateGroupDto.BeginDate)">
+                                                  </ValidationMessage>
+
+                                             </div>
+
+                                        </div>
+
+
+                                        <div class="row mb-4 align-items-group">
+
+                                             <div class="col-lg-4">
+                                                  <label for="fullnameInput" class="fw-semibold">Haftaning Qaysi kunlari
+                                                       bo'ladi:
+                                                  </label>
+                                             </div>
+
+
+                                             <div class="col-lg-8">
+                                                  <label class="form-label fw-bold">Tanlangan kunlar:</label>
+                                                  <div class="d-flex flex-wrap gap-2 mb-3">
+                                                       @foreach (DayOfWeek dayOfWeek in CreateGroupDto.Days)
+                                                       {
+                                                            <span class="badge bg-primary d-flex align-items-center">
+                                                                 @dayOfWeek
+                                                                 <button type="button" class="btn btn-sm btn-close ms-2"
+                                                                      @onclick="() => RemoveDay(dayOfWeek)"></button>
+                                                            </span>
+                                                       }
+                                                  </div>
+
+                                                  <label class="form-label fw-bold">Kunlar ro'yxati:</label>
+                                                  <div class="input-group mb-2">
+                                                       <select class="form-select" @onchange="HandleDays">
+                                                            <option disabled selected value="">-- Kun tanlang --
+                                                            </option>
+                                                            @foreach (var day in Enum.GetValues(typeof(DayOfWeek)))
+                                                            {
+                                                                 <option value="@day">@day</option>
+                                                            }
+                                                       </select>
+                                                  </div>
+
+                                                  <ValidationMessage For="@(() => CreateGroupDto.Days)"
+                                                       class="text-danger" />
+                                             </div>
+
+                                        </div>
+
+
+
+                                        <div class="row mb-4 align-items-group">
+                                             <div class="col-lg-4">
+                                                  <label for="fullnameInput" class="fw-semibold">Qaysi vaqtda bo'lib
+                                                       o'tadi:
+                                                  </label>
+                                             </div>
+
+
+
+
+
+                                             <div class="col-lg-8">
+                                                  <label class="form-label fw-bold">Tanlangan vaqtlar:</label>
+                                                  <div class="d-flex flex-wrap gap-2 mb-3">
+                                                       @foreach (TimeOnly time in CreateGroupDto.Times)
+                                                       {
+                                                            <span class="badge bg-primary d-flex align-items-center">
+                                                                 @time.ToString()
+                                                                 <button type="button" class="btn btn-sm btn-close ms-2"
+                                                                      @onclick="() => RemoveTime(time)"></button>
+                                                            </span>
+                                                       }
+                                                  </div>
+                                                  <div class="input-group">
+
+                                                       <button type="button" @onclick="HandleTimeToggle"
+                                                            class="btn btn-primary">+</button>
+                                                       <input class="form-control" type="time" value="@time"
+                                                            @onchange="HandleTime"
+                                                            style="display:@(isTimeAdd ? "block" : "none");" />
+
+
+
+
+
+                                                  </div>
+                                                  <ValidationMessage class="text-danger"
+                                                       For="@(() => CreateGroupDto.Days)">
+                                                  </ValidationMessage>
+
+                                             </div>
+
+                                        </div>
+
+
+
+                                        <div class="row mb-4 align-items-group">
+                                             <div class="col-lg-4">
+                                                  <label for="fullnameInput" class="fw-semibold">O'qituvchining ulushi
+                                                       (foizlarda):
+                                                  </label>
+                                             </div>
+
+
+
+                                             <div class="col-lg-8">
+                                                  <div class="input-group">
+                                                       <div class="input-group-text"><i class="feather-user"></i></div>
+                                                       <InputNumber @bind-Value="CreateGroupDto.TeacherPortion"
+                                                            class="form-control" id="fullnameInput"
+                                                            placeholder="Fan nomi">
+                                                       </InputNumber>
+
+                                                  </div>
+                                                  <ValidationMessage class="text-danger"
+                                                       For="@(() => CreateGroupDto.TeacherPortion)">
+                                                  </ValidationMessage>
+
+                                             </div>
+
                                         </div>
 
 
@@ -90,24 +319,122 @@
 @inject ScienceClient ScienceClient
 
 @inject NavigationManager NavigationManager
+
+
+
 @code {
 
 
+     protected bool isTimeAdd = false;
+
+
+     TimeOnly time = TimeOnly.FromDateTime(DateTime.Now);
+
      [SupplyParameterFromForm]
-     protected CreateGroupDto CreateGroupDto { get; set; } = new CreateGroupDto();
+     protected CreateGroupDto CreateGroupDto { get; set; } = new()
+     {
+          Days = new(),
+          Times = new(),
+          BeginDate = DateOnly.FromDateTime(DateTime.Now),
+          EndDate = DateOnly.FromDateTime(DateTime.Now)
+
+     };
+
+     protected IEnumerable<User>? teachers;
+
+     protected IEnumerable<Since>? sinces;
+
+
+
 
      protected async Task HandleSubmitAsync()
      {
-
 
           ArgumentNullException.ThrowIfNull(GroupClient);
 
           await GroupClient.CreateAsync(CreateGroupDto);
 
 
-          NavigationManager.NavigateTo("/super-admin/groups");
+          NavigationManager.NavigateTo("/center-admin/groups");
 
 
      }
+
+     protected override async Task OnParametersSetAsync()
+     {
+
+          var dtTeacher = await TeacherClient.GetAllAsync();
+
+
+          teachers = dtTeacher.Items;
+
+          var dtScience = await ScienceClient.GetAllAsync();
+
+          sinces = dtScience.Items;
+
+     }
+
+
+     private void HandleDays(ChangeEventArgs e)
+     {
+          var rawValue = e.Value?.ToString();
+
+          if (!string.IsNullOrWhiteSpace(rawValue) &&
+          Enum.TryParse<DayOfWeek>(rawValue, out var selectedDay))
+          {
+
+
+               if (!CreateGroupDto.Days.Contains(selectedDay))
+               {
+                    CreateGroupDto.Days.Add(selectedDay);
+               }
+          }
+     }
+
+
+     private void RemoveDay(DayOfWeek day)
+     {
+          CreateGroupDto.Days.Remove(day);
+     }
+
+
+     protected void HandleTimeToggle()
+     {
+
+          isTimeAdd = !isTimeAdd;
+
+     }
+
+     protected void HandleTime(ChangeEventArgs e)
+     {
+
+          var value = e.Value?.ToString();
+
+          if (!string.IsNullOrWhiteSpace(value))
+          {
+
+               TimeOnly timeOnly = TimeOnly.Parse(value);
+
+
+               CreateGroupDto.Times.Add(timeOnly);
+
+          }
+
+
+
+
+     }
+
+     protected void RemoveTime(TimeOnly time)
+     {
+
+          CreateGroupDto.Times.Remove(time);
+
+     }
+
+
+
+
+
 
 }

@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EduCenterApi.Infrastructure.Migrations
 {
     [DbContext(typeof(BaseContext))]
-    [Migration("20250406133059_initial")]
+    [Migration("20250709175155_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -46,7 +46,8 @@ namespace EduCenterApi.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AdminId");
+                    b.HasIndex("AdminId")
+                        .IsUnique();
 
                     b.ToTable("centers");
 
@@ -401,8 +402,8 @@ namespace EduCenterApi.Infrastructure.Migrations
             modelBuilder.Entity("EduCenterApi.Domain.Entities.Center", b =>
                 {
                     b.HasOne("EduCenterApi.Domain.Entities.User", "Admin")
-                        .WithMany()
-                        .HasForeignKey("AdminId")
+                        .WithOne("Center")
+                        .HasForeignKey("EduCenterApi.Domain.Entities.Center", "AdminId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -418,7 +419,7 @@ namespace EduCenterApi.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("EduCenterApi.Domain.Entities.Since", "Since")
-                        .WithMany()
+                        .WithMany("Groups")
                         .HasForeignKey("SinceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -530,6 +531,11 @@ namespace EduCenterApi.Infrastructure.Migrations
                     b.Navigation("StudentPaymentSycles");
                 });
 
+            modelBuilder.Entity("EduCenterApi.Domain.Entities.Since", b =>
+                {
+                    b.Navigation("Groups");
+                });
+
             modelBuilder.Entity("EduCenterApi.Domain.Entities.Student", b =>
                 {
                     b.Navigation("StudentPaymentSycles");
@@ -542,6 +548,8 @@ namespace EduCenterApi.Infrastructure.Migrations
 
             modelBuilder.Entity("EduCenterApi.Domain.Entities.User", b =>
                 {
+                    b.Navigation("Center");
+
                     b.Navigation("TeacherCenters");
                 });
 #pragma warning restore 612, 618

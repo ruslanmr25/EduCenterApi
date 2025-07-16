@@ -11,7 +11,7 @@ namespace EduCenterApi.Controllers.CenterAdmin;
 public class GroupController : ControllerBase
 {
 
-    protected int CenterId = 4;
+    protected int CenterId = 5;
 
     protected readonly IMapper _mapper;
 
@@ -25,12 +25,12 @@ public class GroupController : ControllerBase
     }
 
 
-
     [HttpGet]
     public async Task<IActionResult> Index(int page = 1, int pageSize = 40)
     {
         return Ok(await _groupRepository.GetAllByCenterIdAsync(CenterId, page, pageSize));
     }
+
 
 
     [HttpPost]
@@ -76,14 +76,14 @@ public class GroupController : ControllerBase
 
         return Ok();
     }
-    
-      [HttpDelete("{id}")]
 
-        public async Task<IActionResult> Delete(int id)
-        {
-            await _groupRepository.DeleteAsync(id);
+    [HttpDelete("{id}")]
 
-            return Ok();
-        }
+    public async Task<IActionResult> Delete(int id)
+    {
+        await _groupRepository.DeleteAsync(id);
+
+        return Ok();
+    }
 
 }

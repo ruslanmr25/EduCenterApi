@@ -37,7 +37,8 @@
                                                   <div class="input-group">
                                                        <div class="input-group-text"><i class="feather-user"></i></div>
                                                        <InputText @bind-Value="CreateScienceDto.Name"
-                                                            class="form-control" id="fullnameInput" placeholder="Fan nomi">
+                                                            class="form-control" id="fullnameInput"
+                                                            placeholder="Fan nomi">
                                                        </InputText>
 
                                                   </div>
@@ -81,12 +82,11 @@
      {
 
 
-          ArgumentNullException.ThrowIfNull(ScienceClient);
-
           await ScienceClient.CreateAsync(CreateScienceDto);
 
-   
-          NavigationManager.NavigateTo("/super-admin/sciences");
+       
+
+          NavigationManager.NavigateTo("/center-admin/sciences");
 
 
      }

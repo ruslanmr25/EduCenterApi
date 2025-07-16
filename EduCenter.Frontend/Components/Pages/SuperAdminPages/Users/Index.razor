@@ -185,7 +185,7 @@ else
                                         </thead>
                                         <tbody>
 
-                                            @foreach (User user in Users)
+                                            @foreach (User? user in Users)
                                             {
 
 
@@ -211,7 +211,7 @@ else
                                                     <td>
                                                         <div class="hstack gap-2">
 
-                                                            @user.Role.Name
+                                                            @user.Role?.Name
                                                         </div>
                                                     </td>
                                                     <td>@(user.Center?.Name ?? "Mavjud emas")</td>
@@ -294,11 +294,11 @@ else
     protected override async Task OnInitializedAsync()
     {
 
-        ArgumentNullException.ThrowIfNull(UserClient);
+   
         var result = await UserClient.GetAllAsync();
 
         Users = result.Items?.ToList() ?? [];
-        StateHasChanged();
+        
     }
 
 

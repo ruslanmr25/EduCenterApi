@@ -15,7 +15,7 @@ public class GroupClient(HttpClient httpClient) : BaseClient<Group>(httpClient)
           return await base.GetAllAsync(Uri, pageIndex, pageSize);
      }
 
-    
+
 
      public async Task CreateAsync(CreateGroupDto groupDto)
      {
@@ -28,7 +28,7 @@ public class GroupClient(HttpClient httpClient) : BaseClient<Group>(httpClient)
      }
 
 
-     public async Task<Group> GetTeacherByIdAsync(int id)
+     public async Task<Group> GetGroupByIdAsync(int id)
      {
 
           return await base.GetByIdAsync(id, Uri);

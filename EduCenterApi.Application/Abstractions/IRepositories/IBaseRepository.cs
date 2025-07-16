@@ -7,7 +7,7 @@ public interface IBaseRepository<T> where T : class
 {
     public Task<PagedResult<T>> GetAllAsync(int page, int pageSize);
 
-    public ValueTask<T?> GetByIdAsync(int id);
+    public Task<T?> GetByIdAsync(int id);
     public Task AddAsync(T entity);
     public Task UpdateAsync(T entity);
     public Task DeleteAsync(int id);

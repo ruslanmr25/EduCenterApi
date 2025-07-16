@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace EduCenterApi.Domain.Entities;
 
@@ -36,7 +37,7 @@ public class Group
     public DateOnly BeginDate { get; set; }
 
     [Column("is_completed")]
-    public bool IsCompleted { get; set; }= false;
+    public bool IsCompleted { get; set; } = false;
 
     public List<DayOfWeek> Days { get; set; }
 
@@ -48,10 +49,11 @@ public class Group
     public List<TimeOnly> Times { get; set; }
 
 
-    public List<Student> Students { get; set; } 
+
+    public List<Student> Students { get; set; }
 
 
-    public List<StudentPaymentSycle> StudentPaymentSycles { get;set; }
+    public List<StudentPaymentSycle> StudentPaymentSycles { get; set; }
 
 
 

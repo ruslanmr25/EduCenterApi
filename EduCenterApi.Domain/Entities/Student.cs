@@ -1,5 +1,6 @@
 ﻿
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace EduCenterApi.Domain.Entities;
 
@@ -21,9 +22,11 @@ public class Student
     public string? MotherPhone { get; set; }
 
 
+
+
     public List<Group> Groups { get; set; }
 
-    public List<StudentPaymentSycle> StudentPaymentSycles { get;  set; }
+    public List<StudentPaymentSycle> StudentPaymentSycles { get; set; }
 
 
 }

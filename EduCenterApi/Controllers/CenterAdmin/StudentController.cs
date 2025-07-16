@@ -1,16 +1,17 @@
 ﻿using AutoMapper;
 using EduCenterApi.Application.Abstractions.IRepositories;
 using EduCenterApi.Application.DTOs.StudentDto;
+using EduCenterApi.Application.Pagination;
 using EduCenterApi.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EduCenterApi.Controllers.CenterAdmin;
 
-[Route("api/[controller]")]
+[Route("api/center-admin/students")]
 [ApiController]
 public class StudentController : ControllerBase
 {
-    protected int CenterId = 1;
+    protected int CenterId = 5;
 
     protected IStudentPaymentSycleRepository _studentPaymentSycleRepository;
 
@@ -29,11 +30,18 @@ public class StudentController : ControllerBase
 
 
     [HttpGet]
-    public async Task<IActionResult> Index(int page=1,int pageSize=40)
+    public async Task<IActionResult> Index(int page = 1, int pageSize = 40)
     {
 
-        var students=await _studentRepository.GetAllByCenter(CenterId, null, page,pageSize);
-        return Ok(students);
+        var students = await _studentRepository.GetAllByCenter(CenterId, null, page, pageSize);
+
+        List<IndexStudentDto> items = _mapper.Map<List<IndexStudentDto>>(students.Items);
+
+
+        var response = new PagedResult<IndexStudentDto>(items, students.TotalCount, students.TotalPages, students.PageSize);
+
+
+        return Ok(response);
     }
 
     [HttpPost]
@@ -48,12 +56,12 @@ public class StudentController : ControllerBase
 
 
         DateOnly beginDate = createStudentDto.BeginSycleDate ?? DateOnly.FromDateTime(DateTime.Now);
-        DateOnly nextDate=beginDate.AddMonths(1);
+        DateOnly nextDate = beginDate.AddMonths(1);
 
-        foreach(int groupId in createStudentDto.GroupIds)
+        foreach (int groupId in createStudentDto.GroupIds)
         {
-            Group? group =await _groupRepository.GetByIdAsync(groupId);
-            await _studentPaymentSycleRepository.AddStudentPaymentSycleAsync(student.Id, group.Id,group.Price,beginDate,nextDate);
+            Group? group = await _groupRepository.GetByIdAsync(groupId);
+            await _studentPaymentSycleRepository.AddStudentPaymentSycleAsync(student.Id, group.Id, group.Price, beginDate, nextDate);
         }
 
         return Ok();
@@ -67,7 +75,7 @@ public class StudentController : ControllerBase
         {
             return NotFound();
         }
- 
+
         return Ok(student);
     }
 
@@ -83,9 +91,9 @@ public class StudentController : ControllerBase
         }
         _mapper.Map(updateStudentDto, student);
         await _studentRepository.UpdateAsync(student);
-        if(updateStudentDto.GroupIds != null)
+        if (updateStudentDto.GroupIds != null)
         {
-            await _studentPaymentSycleRepository.UpdateSycleAsync(student.Id,updateStudentDto.GroupIds);
+            await _studentPaymentSycleRepository.UpdateSycleAsync(student.Id, updateStudentDto.GroupIds);
             await _studentRepository.AttachStudent(student, updateStudentDto.GroupIds);
         }
         return Ok();

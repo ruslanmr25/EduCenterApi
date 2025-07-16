@@ -1,7 +1,8 @@
-﻿@page "/center-admin/Groups"
+﻿@page "/center-admin/students"
 
 
-<PageTitle>Users</PageTitle>
+
+<PageTitle>Teachers</PageTitle>
 
 
 <HeadContent>
@@ -11,33 +12,15 @@
      <meta name="description" content="">
      <meta name="keyword" content="">
      <meta name="author" content="WRAPCODERS">
-
-
-
-
-
-
-
 </HeadContent>
 
 
-@if (Groups is null)
-{
-     <div class="text-group p-5">
-          <div class="spinner-border text-primary" role="status">
-               <span class="visually-hidden">Loading...</span>
-          </div>
-          <p class="mt-3">Loading users...</p>
-     </div>
-}
-else
-{
 
      <main class="nxl-container">
           <div class="nxl-content">
                <!-- [ page-header ] start -->
-               <div class="page-header">
-                    <div class="page-header-left d-flex align-items-group">
+               @* <div class="page-header">
+                    <div class="page-header-left d-flex align-items-center">
                          <div class="page-header-title">
                               <h5 class="m-b-10">Leads</h5>
                          </div>
@@ -54,7 +37,7 @@ else
                                         <span>Back</span>
                                    </a>
                               </div>
-                              <div class="d-flex align-items-group gap-2 page-header-right-items-wrapper">
+                              <div class="d-flex align-items-center gap-2 page-header-right-items-wrapper">
 
                                    <div class="dropdown">
                                         <a class="btn btn-icon btn-light-brand" data-bs-toggle="dropdown"
@@ -138,22 +121,24 @@ else
                                              <a href="javascript:void(0);" class="dropdown-item">
                                                   <i class="bi bi-printer me-3"></i>
                                                   <span>Print</span>
-                                             </a>
-                                        </div>
-                                   </div>
+     using EduCenterApi.Application.DTOs.StudentDto;
+#line default
+#line hidden
+                                    </div>
                                    <a href="leads-create.html" class="btn btn-primary">
                                         <i class="feather-plus me-2"></i>
                                         <span>Create Lead</span>
                                    </a>
                               </div>
                          </div>
-                         <div class="d-md-none d-flex align-items-group">
+                         <div class="d-md-none d-flex align-items-center">
                               <a href="javascript:void(0)" class="page-header-right-open-toggle">
                                    <i class="feather-align-right fs-20"></i>
                               </a>
                          </div>
                     </div>
-               </div>
+               </div> *@
+
 
 
                <div class="main-content">
@@ -161,6 +146,7 @@ else
                          <div class="col-lg-12">
                               <div class="card stretch stretch-full">
                                    <div class="card-body p-0">
+
 
 
 
@@ -180,16 +166,18 @@ else
                                                                  </div>
                                                             </th>
                                                             <th>Id</th>
-                                                            <th>Nomi</th>
+                                                            <th>Ismi</th>
+                                                            
+                                                            <th>Guruhlari</th>
+                                                            <th>Telefon raqami</th>
+                                                            <th>Ota onasining telefon raqami</th>
 
-
-                                                            <th>Status</th>
                                                             <th class="text-end">Actions</th>
                                                        </tr>
                                                   </thead>
                                                   <tbody>
 
-                                                       @foreach (Group group in Groups)
+                                                       @foreach (IndexStudentDto student in students ?? new())
                                                        {
 
 
@@ -199,9 +187,9 @@ else
                                                                            <div class="custom-control custom-checkbox">
                                                                                 <input type="checkbox"
                                                                                      class="custom-control-input checkbox"
-                                                                                     id="checkBox_@group.Id">
+                                                                                     id="checkBox_@student.Id">
                                                                                 <label class="custom-control-label"
-                                                                                     for="checkBox_@group.Id"></label>
+                                                                                     for="checkBox_@student.Id"></label>
                                                                            </div>
                                                                       </div>
                                                                  </td>
@@ -209,32 +197,26 @@ else
 
 
                                                                       <div>
-                                                                           <span class="text-truncate-1-line">
-                                                                                @group.Id
-
-
-
-                                                                           </span>
-
+                                                                           <span class="text-truncate-1-line">@student.Id</span>
                                                                       </div>
 
                                                                  </td>
-                                                                 <td>
-                                                                      <a
-                                                                           href="@($"/center-admin/groups/{group.Id}")">@group.Name</a>
-                                                                 </td>
-
-
+                                                                 <td>@student.FullName</td>
 
                                                                  <td>
-                                                                      <select class="form-control" data-select2-selector="status">
-                                                                           <option value="primary" data-bg="bg-primary">Active
-                                                                           </option>
-                                                                           <option value="warning" data-bg="bg-warning">Disabled
-                                                                           </option>
-
-                                                                      </select>
+                                                                      @string.Join(", ",student.Groups)
                                                                  </td>
+
+                                                                 <td>@student.Phone</td>
+                                                                 <td>
+                                                                      <a href="tel:">
+                                                                      @string.Join(", ",new[] {student.MotherPhone ,student.FatherPhone}.Where(p=>!string.IsNullOrWhiteSpace(p))) 
+
+                                                                      </a>
+                                                                 </td>
+                                                                 
+
+
                                                                  <td>
                                                                       <div class="hstack gap-2 justify-content-end">
                                                                            <a href="leads-view.html"
@@ -252,7 +234,7 @@ else
                                                                                 <ul class="dropdown-menu">
                                                                                      <li>
                                                                                           <a class="dropdown-item"
-                                                                                               href=@($"/super-admin/groups/{@group.Id}/edit")>
+                                                                                               href="@($"/center-admin/students/{student.Id}/edit")">
                                                                                                <i
                                                                                                     class="feather feather-edit-3 me-3"></i>
                                                                                                <span>Edit</span>
@@ -262,16 +244,16 @@ else
                                                                                      <li class="dropdown-divider"></li>
                                                                                      <li>
 
-                                                                                          <EditForm Model="@group"
-                                                                                               FormName="@("form"+group.Name)"
-                                                                                               OnValidSubmit="()=>HandleSubmitAsync(group)">
+                                                                                          @* <EditForm Model="@user"
+                                                                                               FormName="@("form"+user.FullName)"
+                                                                                               OnValidSubmit="()=>HandleSubmitAsync(user)">
 
 
                                                                                                <button type="submit"
                                                                                                     class="dropdown-item"><i
                                                                                                          class="feather feather-trash-2 me-3"></i>
                                                                                                     <span>O'chirish</span></button>
-                                                                                          </EditForm>
+                                                                                          </EditForm> *@
 
                                                                                      </li>
                                                                                 </ul>
@@ -282,9 +264,13 @@ else
 
                                                        }
 
+                                                  
+                                                  
                                                   </tbody>
                                              </table>
                                         </div>
+
+
                                    </div>
                               </div>
                          </div>
@@ -294,39 +280,19 @@ else
           </div>
 
      </main>
+@inject StudentClient StudentClient
 
-
-
-
-}
-
-@inject GroupClient GroupClient
 @code {
-     protected List<Group>? Groups { get; set; }
 
-
-
+     private List<IndexStudentDto>? students;
 
      protected override async Task OnInitializedAsync()
      {
 
-          ArgumentNullException.ThrowIfNull(GroupClient);
-          var result = await GroupClient.GetAllAsync();
 
-          Groups = result.Items?.ToList() ?? [];
-          StateHasChanged();
+          var dbStudents=await StudentClient.GetAllAsync();
+
+          students=dbStudents.Items?.ToList();
      }
-
-
-     protected async Task HandleSubmitAsync(Group group)
-     {
-
-
-          await GroupClient.DeleteAsync(group.Id);
-
-          await OnInitializedAsync();
-
-     }
-
 
 }

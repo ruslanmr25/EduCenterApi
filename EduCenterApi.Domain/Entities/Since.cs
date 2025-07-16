@@ -14,4 +14,7 @@ public class Since
     [Column("center_id")]
     public int CenterId { get; set; }
     public Center Center { get; set; }
+
+
+    public List<Group> Groups { get; set; }
 }

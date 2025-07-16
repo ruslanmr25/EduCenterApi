@@ -48,7 +48,7 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
     }
 
 
-    public async ValueTask<T?> GetByIdAsync(int id)
+    public virtual async Task<T?> GetByIdAsync(int id)
     {
         T? entity = await _context.Set<T>().FindAsync(id);
 

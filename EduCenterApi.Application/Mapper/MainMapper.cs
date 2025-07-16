@@ -64,5 +64,11 @@ public class MainMapper : Profile
         CreateMap<UpdateStudentDto, Student>()
             .ForAllMembers(options => options.Condition((src, dest, srcMember) => srcMember != null));
 
+
+
+
+        CreateMap<Student, IndexStudentDto>()
+            .ForMember(dest => dest.Groups, opt => opt.MapFrom(src => src.Groups.Select(g => g.Name).ToList()));
+
     }
 }

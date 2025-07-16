@@ -1,0 +1,312 @@
+﻿@page "/center-admin/students/create"
+@* @rendermode @(new InteractiveServerRenderMode(prerender:false)) *@
+@rendermode InteractiveServer
+
+<main class="nxl-container">
+    <div class="nxl-content">
+
+
+        <div class="main-content">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card stretch stretch-full">
+
+                        <hr class="mt-0">
+                        <div class="card-body general-info">
+
+                            <EditForm OnValidSubmit="HandleSubmitAsync" FormName="Create-Student" Enhance Model="@CreateStudentDto">
+
+                                <DataAnnotationsValidator></DataAnnotationsValidator>
+
+                                <div class="mb-5 d-flex align-items-center justify-content-between">
+                                    <h5 class="fw-bold mb-0 me-4">
+                                        <span class="fs-20 d-block mb-2">O'quvchi ma'lumotlari:</span>
+                                        <span class="fs-16 fw-normal text-muted text-truncate-1-line">
+                                            Quyidagilarning
+                                            barchasini kiriting
+                                        </span>
+                                    </h5>
+                                    <button class=" btn btn-primary" type="submit">Saqlash</button>
+                                </div>
+                                <div class="row mb-4 align-items-center">
+                                    <div class="col-lg-4">
+                                        <label for="fullnameInput" class="fw-semibold">Name: </label>
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <div class="input-group">
+                                            <div class="input-group-text"><i class="feather-user"></i></div>
+                                            <InputText @bind-Value="CreateStudentDto.FullName"
+                                                       class="form-control" id="fullnameInput" placeholder="Name">
+                                            </InputText>
+
+                                        </div>
+                                        <ValidationMessage class="text-danger"
+                                                           For="@(() => CreateStudentDto.FullName)"></ValidationMessage>
+
+                                    </div>
+                                </div>
+
+                                <div class="row mb-4 align-items-center">
+                                    <div class="col-lg-4">
+                                        <label for="usernameInput" class="fw-semibold">Username: </label>
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <div class="input-group">
+                                            <div class="input-group-text">
+                                                <i class="feather-link-2"></i>
+                                            </div>
+                                            <InputText @bind-Value="CreateStudentDto.Phone"
+                                                       class="form-control" id="usernameInput"
+                                                       placeholder="Phone"></InputText>
+
+                                        </div>
+                                        <ValidationMessage class="text-danger"
+                                                           For="@(() => CreateStudentDto.Phone)"></ValidationMessage>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-4 align-items-center">
+                                    <div class="col-lg-4">
+                                        <label for="mother-phone" class="fw-semibold">Onasining raqami: </label>
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <div class="input-group">
+                                            <div class="input-group-text"><i class="feather-user"></i></div>
+                                            <InputText @bind-Value="CreateStudentDto.MotherPhone" class="form-control"
+                                                       id="mother-phone" placeholder="Onasining raqami">
+                                            </InputText>
+
+                                        </div>
+                                        <ValidationMessage class="text-danger"
+                                                           For="@(() => CreateStudentDto.MotherPhone)"></ValidationMessage>
+
+                                    </div>
+                                </div>
+
+
+
+
+                                <div class="row mb-4 align-items-center">
+                                    <div class="col-lg-4">
+                                        <label for="father-phone" class="fw-semibold">Otasining raqami: </label>
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <div class="input-group">
+                                            <div class="input-group-text"><i class="feather-user"></i></div>
+                                            <InputText @bind-Value="CreateStudentDto.FatherPhone" class="form-control"
+                                                       id="father-phone" placeholder="otasining raqami raqami">
+                                            </InputText>
+
+                                        </div>
+                                        <ValidationMessage class="text-danger"
+                                                           For="@(() => CreateStudentDto.FatherPhone)"></ValidationMessage>
+
+                                    </div>
+                                </div>
+
+                                <div class="row mb-4 align-items-center">
+                                    <div class="col-lg-4">
+                                        <label for="father-phone" class="fw-semibold">Qaysi guruhlarga biriktiriladi: </label>
+                                    </div>
+
+
+
+                                    <div class="col-lg-8">
+
+
+
+                                        @* <AddGroupComponent AttachGroup="AttachGroup" Sinces="@sciences" @ref="ChildRef" ></AddGroupComponent> *@
+
+
+
+                                        <div>
+
+                                            Guruhlar:
+                                            <div class="d-flex flex-wrap gap-2 mb-3">
+
+                                                @foreach(var group in AddedGroups)
+                                                {
+                                                    <span class="badge bg-primary d-flex align-items-center">
+                                                                 @group.Name
+                                                                 <button type="button" class="btn btn-sm btn-close ms-2"
+                                                                      @onclick="() => RemoveGroup(group)"></button>
+                                                            </span>
+                                                }
+
+                                                 <ValidationMessage class="text-danger"
+                                                           For="@(() => CreateStudentDto.GroupIds)"></ValidationMessage>
+
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="input-group">
+
+
+
+                                            <div class="m-4 mx-0">
+
+
+                                                <label class="form-label">Fanni tanlang:</label>
+
+                                                <select value="@_selectedScience"  @onchange="HandleChangeingScienceAsync" class="form-select form-control" style="min-width: 300px;">
+
+                                                    @foreach (Since science in _sciences?? new())
+                                                    {
+                                                        <option value="@science.Id">@science.Name</option>
+                                                    }
+
+                                                </select>
+
+                                            </div>
+
+
+                                            <div class="m-4">
+                                                <label class="form-label">Guruhni tanlang tanlang:</label>
+
+                                                <select @bind="_selectedGroup" class="form-select form-control" style="min-width: 300px;">
+                                                    <option value="0"> -- Tanlanmagan --</option>
+
+                                                    @foreach (var group in _groups)
+                                                    {
+                                                        <option value="@group.Id">@group.Name</option>
+                                                    }
+
+                                                </select>
+                                            </div>
+
+
+                                        </div>
+
+
+
+
+
+
+                                        <button type="button" @onclick="AddNewGroup" class="btn btn-primary">Guruhni qo'shish</button>
+
+                                                         
+
+                                    </div>
+                                </div>
+
+
+                            </EditForm>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- [ Main Content ] end -->
+    </div>
+
+
+</main>
+
+
+
+
+
+@inject StudentClient StudentClient
+
+@inject NavigationManager NavigationManager
+
+@inject ScienceClient ScienceClient
+
+@code {
+
+
+    [SupplyParameterFromForm]
+    protected CreateStudentDto CreateStudentDto { get; set; } = new CreateStudentDto();
+
+    private List<Since>? _sciences;
+
+    private int _selectedScience;
+
+
+    protected List<Group> _groups=new();
+
+    protected List<Group> AddedGroups = new();
+
+
+    private int _selectedGroup;
+
+    
+
+    protected async Task HandleChangeingScienceAsync(ChangeEventArgs e)
+    {
+
+                
+        if(int.TryParse(e.Value?.ToString(),out var newValue))
+        {
+            _selectedScience=newValue;
+            await ChangeGroupAsync(newValue);
+        }
+    }
+
+
+
+   
+
+
+    protected async Task HandleSubmitAsync()
+    {
+
+       
+
+        await StudentClient.CreateAsync(CreateStudentDto);
+        NavigationManager.NavigateTo("/center-admin/students");
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var sciences=await ScienceClient.GetAllAsync();
+
+        _sciences=sciences.Items?.ToList() ?? new();
+
+        if(_sciences.Count > 0)
+
+        {
+            var firstScience = _sciences.FirstOrDefault();
+                
+            if (firstScience != null)
+            {
+
+                _selectedScience = firstScience.Id;
+
+                _selectedGroup=0;
+                await ChangeGroupAsync(_selectedScience);
+            }
+        }
+
+    }
+
+    protected async Task  ChangeGroupAsync(int scienceId)
+    {
+        Since science=await ScienceClient.GetScienceByIdAsync(scienceId);
+        _groups=science.Groups;
+    }
+
+
+    protected void AddNewGroup()
+    {
+
+
+      
+        var group=_groups.Where(g=>g.Id==_selectedGroup).FirstOrDefault();
+        if(!AddedGroups.Any(g=>g.Id==_selectedGroup) && group is not null)
+        {
+            AddedGroups.Add(group);
+            CreateStudentDto.GroupIds=AddedGroups.Select(g=>g.Id).ToList();
+
+            _selectedGroup=0;
+        }
+    }
+
+    protected void RemoveGroup(Group group)
+    {
+        AddedGroups.Remove(group);
+        CreateStudentDto.GroupIds=AddedGroups.Select(g=>g.Id).ToList();
+
+    }
+}

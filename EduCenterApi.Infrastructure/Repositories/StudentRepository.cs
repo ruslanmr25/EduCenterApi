@@ -25,6 +25,7 @@ public class StudentRepository: BaseRepository<Student>,IStudentRepository
     public async  Task<PagedResult<Student>> GetAllByCenter(int CenterId,int? GroupId=null,int page=1,int pageSize=40)
     {
         var query=_context.Set<Student>().AsQueryable()
+            .Include(s=>s.Groups)
             .Where(x => x.Groups.Any(g => g.CenterId == CenterId));
         
         if(GroupId != null)

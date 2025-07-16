@@ -1,0 +1,129 @@
+﻿@rendermode InteractiveServer
+
+
+
+<div>
+
+     Guruhlar:
+     <span class="text-primary">
+
+          @string.Join(",", AddedGroups.Select(g => g.Name))
+     </span>
+</div>
+<div class="input-group">
+
+
+
+     <div class="m-4 mx-0">
+
+
+          <label class="form-label">Fanni tanlang:</label>
+
+          <select @bind="scienceId" class="form-select form-control" style="min-width: 300px;">
+               @foreach (var science in Sinces)
+               {
+                    <option value="@science.Id">@science.Name</option>
+               }
+
+          </select>
+
+     </div>
+
+
+     <div class="m-4">
+          <label class="form-label">Guruhni tanlang tanlang:</label>
+
+          <select @bind="groupId" class="form-select form-control" style="min-width: 300px;">
+               <option value="0"> -- Tanlanmagan --</option>
+
+               @foreach (var group in groups)
+               {
+                    <option value="@group.Id">@group.Name</option>
+               }
+
+          </select>
+     </div>
+
+
+</div>
+@inject GroupClient GroupClient
+
+@inject ScienceClient ScienceClient
+
+
+@code {
+
+
+     public List<Group> AddedGroups = new();
+
+
+     [Parameter]
+     public List<Since> Sinces { get; set; } = new();
+
+
+
+     [Parameter]
+     public EventCallback<int> AttachGroup { get; set; }
+
+     public List<Group> groups = new();
+     private int _scienceId;
+     private int _groupId;
+
+     protected int groupId
+     {
+          get => _groupId;
+          set
+          {
+               _groupId = value;
+               var selectedGroup = groups.FirstOrDefault(g => g.Id == value);
+              
+               AttachGroup.InvokeAsync(value);
+               StateHasChanged();
+          }
+     }
+
+
+     protected override async Task OnParametersSetAsync()
+     {
+
+          Sinces ??= new List<Since>();
+          if (Sinces is not null && Sinces.Any())
+          {
+               _scienceId = Sinces.First().Id;
+               await HandleScienceChangeAsync(_scienceId);
+          }
+     }
+
+
+
+
+     protected int scienceId
+     {
+          get => _scienceId;
+          set
+          {
+
+               if (_scienceId != value)
+               {
+
+                    _scienceId = value;
+                    _ = HandleScienceChangeAsync(value);
+
+               }
+          }
+     }
+     protected async Task HandleScienceChangeAsync(int value)
+     {
+          var since = await ScienceClient.GetScienceByIdAsync(value);
+          groups = since.Groups;
+          StateHasChanged();
+
+     }
+
+
+     public void Reset()
+     {
+          _scienceId = 0;
+          _groupId = 0;
+     }
+}

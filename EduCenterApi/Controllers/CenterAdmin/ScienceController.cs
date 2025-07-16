@@ -12,7 +12,7 @@ public class ScienceController : ControllerBase
 {
 
 
-    protected int CenterId = 4;
+    protected int CenterId = 5;
 
     protected readonly IScienceRepository _scienceRepository;
 
@@ -33,11 +33,23 @@ public class ScienceController : ControllerBase
     {
         return Ok(await _scienceRepository.GetAllCenterScienceAsync(CenterId, page, pageSize));
     }
+
+
+    [HttpGet("{id}/groups")]
+    public async Task<IActionResult> GetGroupByScience(int id)
+    {
+
+        var sinces = await _scienceRepository.GetAllGroupByScienceAsync(CenterId, id);
+
+        // sinces.Items.
+        return Ok(sinces);
+    }
     [HttpPost]
     public async Task<IActionResult> Create(CreateScienceDto scienceDto)
     {
 
 
+       
         var science = _mapper.Map<Since>(scienceDto);
 
         science.CenterId = CenterId;

@@ -281,7 +281,8 @@ namespace EduCenterApi.Infrastructure.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_centers_admin_id",
                 table: "centers",
-                column: "admin_id");
+                column: "admin_id",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_groups_center_id",
