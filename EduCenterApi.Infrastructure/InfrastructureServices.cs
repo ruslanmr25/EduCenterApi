@@ -10,10 +10,11 @@ namespace EduCenterApi.Infrastructure
 {
     public static class InfrastructureServices
     {
-        public static IServiceCollection RegisterInfrastructureServces(this IServiceCollection services, string connectionString)
+        public static IServiceCollection RegisterInfrastructureServces(
+            this IServiceCollection services,
+            string connectionString
+        )
         {
-
-           
             services.AddDbContext<BaseContext>(options =>
             {
                 options.UseNpgsql(connectionString, x => x.MigrationsHistoryTable("migrations"));
@@ -26,16 +27,15 @@ namespace EduCenterApi.Infrastructure
             services.AddScoped<IScienceRepository, ScienceRepository>();
             services.AddScoped<IGroupRepository, GroupRepository>();
             services.AddScoped<IStudentRepository, StudentRepository>();
+            services.AddScoped<IStudentPaymentRepository, StudentPaymentRepository>();
 
             services.AddScoped<IStudentPaymentSycleRepository, StudentPaymentSycleRepository>();
 
             services.AddScoped<IAuthRepository, AuthRepository>();
 
+            services.AddScoped<IUniqueValidator, UniqueValidator>();
 
-
-            services.AddScoped<IUniqueValidator,UniqueValidator>();
             return services;
         }
-
     }
 }

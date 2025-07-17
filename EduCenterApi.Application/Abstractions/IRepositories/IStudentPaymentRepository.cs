@@ -1,0 +1,11 @@
+using System;
+using EduCenterApi.Domain.Entities;
+
+namespace EduCenterApi.Application.Abstractions.IRepositories;
+
+public interface IStudentPaymentRepository
+{
+     public Task<StudentPaymentSycle?> GetPaymentSycle(int sycleId);
+
+     public Task AddPayment(StudentPayment payment);
+}
