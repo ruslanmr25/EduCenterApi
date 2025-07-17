@@ -1,7 +1,4 @@
-﻿
-using EduCenterApi.Domain.Entities;
-
-namespace EduCenterApi.Application.DTOs.CenterDtos;
+﻿namespace EduCenterApi.Application.DTOs.CenterDtos;
 
 public class CreateCenterDto
 {

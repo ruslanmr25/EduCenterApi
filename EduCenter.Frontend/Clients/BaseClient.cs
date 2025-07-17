@@ -1,6 +1,4 @@
-﻿using System.Net.Http;
-using System.Net.Http.Json;
-using EduCenter.Frontend.Interfaces;
+﻿using EduCenter.Frontend.Interfaces;
 using EduCenter.Frontend.Responses;
 
 namespace EduCenter.Frontend.Clients;

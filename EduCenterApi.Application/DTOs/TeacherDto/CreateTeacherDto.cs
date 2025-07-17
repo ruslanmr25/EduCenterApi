@@ -1,6 +1,4 @@
-﻿
-using EduCenterApi.Application.Attributes;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace EduCenterApi.Application.DTOs.TeacherDto;
 
@@ -22,5 +20,5 @@ public class CreateTeacherDto
     //    ErrorMessage = "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character.")]
     public string Password { get; set; } = string.Empty;
 
-    
+
 }

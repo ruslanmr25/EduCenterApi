@@ -8,7 +8,7 @@ namespace EduCenterApi.Infrastructure.Repositories;
 
 public class GroupRepository(BaseContext baseContext) : BaseRepository<Group>(baseContext), IGroupRepository
 {
-     public override async Task<PagedResult<Group>> GetAllAsync(int page, int pageSize)
+    public override async Task<PagedResult<Group>> GetAllAsync(int page, int pageSize)
     {
         var query = _context.Set<Group>().AsQueryable().Include(g => g.Teacher);
         var totalCount = await query.CountAsync();
@@ -34,7 +34,7 @@ public class GroupRepository(BaseContext baseContext) : BaseRepository<Group>(ba
             .Include(g => g.Teacher)
             .Include(g => g.Students)
             .ThenInclude(s => s.StudentPaymentSycles)
-            .ThenInclude(sycle=>sycle.StudentPayments)
+            .ThenInclude(sycle => sycle.StudentPayments)
             .Include(g => g.Since)
             .Where(g => g.Id == id)
             .FirstOrDefaultAsync();

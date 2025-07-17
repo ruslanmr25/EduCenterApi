@@ -1,6 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-
-using EduCenterApi.Application.Attributes;
 namespace EduCenterApi.Application.DTOs.UserDtos;
 
 public class CreateUserDto

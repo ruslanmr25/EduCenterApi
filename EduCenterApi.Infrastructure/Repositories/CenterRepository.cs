@@ -18,7 +18,7 @@ public class CenterRepository : BaseRepository<Center>, ICenterRepository
     {
         var query = _context.Set<Center>().AsQueryable().Include(c => c.Admin);
 
-        
+
         var totalCount = await query.CountAsync();
 
         var result = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();

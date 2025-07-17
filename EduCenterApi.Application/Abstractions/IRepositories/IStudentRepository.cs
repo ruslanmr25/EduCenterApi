@@ -4,7 +4,7 @@ using EduCenterApi.Domain.Entities;
 
 namespace EduCenterApi.Application.Abstractions.IRepositories;
 
-public interface IStudentRepository:IBaseRepository<Student>
+public interface IStudentRepository : IBaseRepository<Student>
 {
 
     public Task<PagedResult<Student>> GetAllByCenter(int CenterId, int? GroupId = null, int page = 1, int pageSize = 40);

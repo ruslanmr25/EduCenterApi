@@ -1,7 +1,4 @@
-﻿
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace EduCenterApi.Application.DTOs.GroupDto;
+﻿namespace EduCenterApi.Application.DTOs.GroupDto;
 
 public class UpdateGroupDto
 {

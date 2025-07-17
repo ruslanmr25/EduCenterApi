@@ -1,7 +1,6 @@
 ﻿using EduCenter.Frontend.Responses;
-using EduCenterApi.Domain.Entities;
-using EduCenterApi.Application.DTOs.UserDtos;
 using EduCenterApi.Application.DTOs.CenterDtos;
+using EduCenterApi.Domain.Entities;
 
 namespace EduCenter.Frontend.Clients;
 
@@ -29,7 +28,7 @@ public class CenterClient(HttpClient httpClient) : BaseClient<Center>(httpClient
     {
         var url = $"{Uri}/{Id}";
 
-      
+
         await base.UpdateAsync<UpdateCenterDto>(url, centerDto);
     }
 
@@ -39,8 +38,8 @@ public class CenterClient(HttpClient httpClient) : BaseClient<Center>(httpClient
         return await base.GetByIdAsync(id, Uri);
     }
 
-    
-  
+
+
 
 
 

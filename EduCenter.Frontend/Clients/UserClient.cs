@@ -1,16 +1,16 @@
 ﻿
 
-using EduCenter.Frontend.Responses;
-using EduCenterApi.Domain.Entities;
-using EduCenterApi.Application.DTOs.UserDtos;
 using EduCenter.Frontend.Interfaces;
+using EduCenter.Frontend.Responses;
+using EduCenterApi.Application.DTOs.UserDtos;
+using EduCenterApi.Domain.Entities;
 
 namespace EduCenter.Frontend.Clients;
 
 public class UserClient(HttpClient httpClient) : BaseClient<User>(httpClient), IClient
 {
 
-    public override string Uri { get; set; } = "/api/super-admin/users";    
+    public override string Uri { get; set; } = "/api/super-admin/users";
 
 
 

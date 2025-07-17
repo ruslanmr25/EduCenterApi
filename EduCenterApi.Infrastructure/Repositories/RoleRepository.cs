@@ -4,7 +4,7 @@ using EduCenterApi.Infrastructure.DatabaseContext;
 
 namespace EduCenterApi.Infrastructure.Repositories;
 
-public class RoleRepository:BaseRepository<Role>, IRoleRepository
+public class RoleRepository : BaseRepository<Role>, IRoleRepository
 {
     public RoleRepository(BaseContext context) : base(context) { }
 

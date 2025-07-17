@@ -1,12 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace EduCenterApi.Application.DTOs.GroupDto;
+﻿namespace EduCenterApi.Application.DTOs.GroupDto;
 
 public class CreateGroupDto
 {
 
 
-    
+
 
     public string Name { get; set; } = string.Empty;
     public int TeacherId { get; set; }

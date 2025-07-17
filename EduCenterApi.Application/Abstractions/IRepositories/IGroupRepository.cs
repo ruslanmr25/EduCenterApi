@@ -9,7 +9,7 @@ public interface IGroupRepository : IBaseRepository<Group>
 {
 
     public Task<PagedResult<Group>> GetAllByCenterIdAsync(int centerId, int page, int pageSize);
- 
+
 
 
 }

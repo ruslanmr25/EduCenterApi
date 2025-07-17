@@ -1,5 +1,3 @@
-using System;
-
 namespace EduCenter.Frontend.Clients;
 
 public class StudentPaymentClient

@@ -1,17 +1,17 @@
-﻿using EduCenterApi.Infrastructure.DatabaseContext;
+﻿using EduCenterApi.Application.Abstractions.IValidators;
+using EduCenterApi.Infrastructure.DatabaseContext;
 using Microsoft.EntityFrameworkCore;
-using EduCenterApi.Application.Abstractions.IValidators;
 
 namespace EduCenterApi.Infrastructure.Validators;
 
-public class UniqueValidator:IUniqueValidator
+public class UniqueValidator : IUniqueValidator
 {
     protected readonly BaseContext _context;
 
     public UniqueValidator(BaseContext context)
     {
         _context = context;
-    }   
+    }
 
     public int Validate(object value, string columnName, string tableName)
     {

@@ -1,6 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-using EduCenterApi.Domain.Entities;
+﻿using EduCenterApi.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 namespace EduCenterApi.Infrastructure.DatabaseContext;
 
 public class BaseContext : DbContext

@@ -1,5 +1,4 @@
 using EduCenterApi.Application.Abstractions.IRepositories;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EduCenterApi.Controllers.CenterAdmin
@@ -15,10 +14,23 @@ namespace EduCenterApi.Controllers.CenterAdmin
             _studentPaymentRepository = studentPaymentRepository;
         }
 
-        [HttpGet]
+        [HttpGet("sycles/{sycleId}")]
         public async Task<IActionResult> GetStudentPaymentSycle(int sycleId)
         {
-            var sycle = await _studentPaymentRepository.GetPaymentSycle(sycleId);
+            var sycle = await _studentPaymentRepository.GetPaymentSycleAsync(sycleId);
+
+            if (sycle is null)
+            {
+                return NotFound();
+            }
+
+            return Ok(sycle);
+        }
+
+        [HttpGet("students/{studentId}")]
+        public async Task<IActionResult> GetStudentPaymentSycles(int studentId)
+        {
+            var sycle = await _studentPaymentRepository.GetStudentPaymentSyclesAsync(studentId);
 
             if (sycle is null)
             {

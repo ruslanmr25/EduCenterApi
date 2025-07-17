@@ -1,8 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using EduCenterApi.Application.Abstractions.IValidators;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.Extensions.DependencyInjection;
+﻿using EduCenterApi.Application.Abstractions.IValidators;
+using System.ComponentModel.DataAnnotations;
 
 namespace EduCenterApi.Application.Attributes;
 
@@ -10,7 +7,7 @@ public class UniqueAttribute : ValidationAttribute
 {
     private readonly string _columnName;
     private readonly string _tableName;
-   
+
 
 
 
@@ -23,7 +20,7 @@ public class UniqueAttribute : ValidationAttribute
     protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
     {
 
-        var uniqueValidator=validationContext.GetService(typeof(IUniqueValidator)) as IUniqueValidator;
+        var uniqueValidator = validationContext.GetService(typeof(IUniqueValidator)) as IUniqueValidator;
 
         if (uniqueValidator == null)
         {
@@ -37,10 +34,10 @@ public class UniqueAttribute : ValidationAttribute
             return new ValidationResult("Foydalanuvchi nomi bo'sh bo'lishi mumkin emas.");
         }
 
-        var count=uniqueValidator.Validate(value,_columnName, _tableName);
+        var count = uniqueValidator.Validate(value, _columnName, _tableName);
 
-      
-       
+
+
         return count > 0 ? new ValidationResult($" `{value}` allaqachon mavjud.") : ValidationResult.Success;
     }
 

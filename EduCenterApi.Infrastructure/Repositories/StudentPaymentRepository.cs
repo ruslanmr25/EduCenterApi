@@ -1,4 +1,3 @@
-using System;
 using EduCenterApi.Application.Abstractions.IRepositories;
 using EduCenterApi.Domain.Entities;
 using EduCenterApi.Infrastructure.DatabaseContext;
@@ -15,16 +14,24 @@ public class StudentPaymentRepository : IStudentPaymentRepository
         _context = baseContext;
     }
 
-    public async Task AddPayment(StudentPayment payment)
+    public async Task AddPaymentAsync(StudentPayment payment)
     {
         await _context.StudentPayments.AddAsync(payment);
     }
 
-    public async Task<StudentPaymentSycle?> GetPaymentSycle(int sycleId)
+    public async Task<StudentPaymentSycle?> GetPaymentSycleAsync(int sycleId)
     {
         return await _context
             .StudentPaymentSycles.Where(s => s.Id == sycleId)
             .Include(s => s.StudentPayments)
             .FirstOrDefaultAsync();
+    }
+
+    public async Task<List<StudentPaymentSycle>> GetStudentPaymentSyclesAsync(int studentId)
+    {
+        return await _context
+            .StudentPaymentSycles.Where(sycle => sycle.StudentId == studentId)
+            .Include(sycle => sycle.StudentPayments)
+            .ToListAsync();
     }
 }

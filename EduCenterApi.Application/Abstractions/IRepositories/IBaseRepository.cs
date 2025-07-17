@@ -2,8 +2,8 @@
 
 namespace EduCenterApi.Application.Abstractions.IRepositories;
 
-
-public interface IBaseRepository<T> where T : class
+public interface IBaseRepository<T>
+    where T : class
 {
     public Task<PagedResult<T>> GetAllAsync(int page, int pageSize);
 
@@ -12,4 +12,3 @@ public interface IBaseRepository<T> where T : class
     public Task UpdateAsync(T entity);
     public Task DeleteAsync(int id);
 }
-

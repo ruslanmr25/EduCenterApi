@@ -1,6 +1,5 @@
 using EduCenterApi.Application.Abstractions.IRepositories;
 using EduCenterApi.Domain.Entities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EduCenterApi.Controllers.Auth

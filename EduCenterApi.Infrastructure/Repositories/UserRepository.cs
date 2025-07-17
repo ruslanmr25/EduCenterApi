@@ -36,7 +36,7 @@ namespace EduCenterApi.Infrastructure.Repositories
         public async Task<PagedResult<User>> GetSenterAdmins(int page, int pageSize)
         {
 
-            var query = _context.Set<User>().AsQueryable().Include(u => u.Role).Include(u => u.Center).Include(u => u.TeacherCenters).Where(u=>u.Role.Name=="CenterAdmin");
+            var query = _context.Set<User>().AsQueryable().Include(u => u.Role).Include(u => u.Center).Include(u => u.TeacherCenters).Where(u => u.Role.Name == "CenterAdmin");
 
 
 

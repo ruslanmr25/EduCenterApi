@@ -12,7 +12,7 @@ public class StudentPaymentSycle
 
     public Student Student { get; set; }
 
-    
+
     [Column("student_id")]
     public int StudentId { get; set; }
 

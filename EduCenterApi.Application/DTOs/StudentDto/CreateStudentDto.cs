@@ -1,6 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using EduCenterApi.Domain.Entities;
 
 namespace EduCenterApi.Application.DTOs.StudentDto;
 
