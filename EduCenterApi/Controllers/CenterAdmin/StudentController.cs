@@ -11,7 +11,7 @@ namespace EduCenterApi.Controllers.CenterAdmin;
 [ApiController]
 public class StudentController : ControllerBase
 {
-    protected int CenterId = 5;
+    protected int CenterId = 1;
 
     protected IStudentPaymentSycleRepository _studentPaymentSycleRepository;
 
@@ -20,7 +20,12 @@ public class StudentController : ControllerBase
     protected IMapper _mapper;
     protected readonly IStudentRepository _studentRepository;
 
-    public StudentController(IStudentRepository studentRepository, IMapper mapper, IStudentPaymentSycleRepository studentPaymentSycleRepository, IGroupRepository groupRepository)
+    public StudentController(
+        IStudentRepository studentRepository,
+        IMapper mapper,
+        IStudentPaymentSycleRepository studentPaymentSycleRepository,
+        IGroupRepository groupRepository
+    )
     {
         _studentRepository = studentRepository;
         _mapper = mapper;
@@ -28,18 +33,19 @@ public class StudentController : ControllerBase
         _groupRepository = groupRepository;
     }
 
-
     [HttpGet]
     public async Task<IActionResult> Index(int page = 1, int pageSize = 40)
     {
-
         var students = await _studentRepository.GetAllByCenter(CenterId, null, page, pageSize);
 
         List<IndexStudentDto> items = _mapper.Map<List<IndexStudentDto>>(students.Items);
 
-
-        var response = new PagedResult<IndexStudentDto>(items, students.TotalCount, students.TotalPages, students.PageSize);
-
+        var response = new PagedResult<IndexStudentDto>(
+            items,
+            students.TotalCount,
+            students.TotalPages,
+            students.PageSize
+        );
 
         return Ok(response);
     }
@@ -53,15 +59,19 @@ public class StudentController : ControllerBase
 
         await _studentRepository.AttachStudent(student, createStudentDto.GroupIds);
 
-
-
         DateOnly beginDate = createStudentDto.BeginSycleDate ?? DateOnly.FromDateTime(DateTime.Now);
         DateOnly nextDate = beginDate.AddMonths(1);
 
         foreach (int groupId in createStudentDto.GroupIds)
         {
             Group? group = await _groupRepository.GetByIdAsync(groupId);
-            await _studentPaymentSycleRepository.AddStudentPaymentSycleAsync(student.Id, group.Id, group.Price, beginDate, nextDate);
+            await _studentPaymentSycleRepository.AddStudentPaymentSycleAsync(
+                student.Id,
+                group.Id,
+                group.Price,
+                beginDate,
+                nextDate
+            );
         }
 
         return Ok();
@@ -82,8 +92,7 @@ public class StudentController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(int id, UpdateStudentDto updateStudentDto)
     {
-
-        //hamma guruh idsi kelish kerak yangisi ham eskisi ham 
+        //hamma guruh idsi kelish kerak yangisi ham eskisi ham
         var student = await _studentRepository.GetByIdAsync(id);
         if (student == null)
         {
@@ -93,12 +102,12 @@ public class StudentController : ControllerBase
         await _studentRepository.UpdateAsync(student);
         if (updateStudentDto.GroupIds != null)
         {
-            await _studentPaymentSycleRepository.UpdateSycleAsync(student.Id, updateStudentDto.GroupIds);
+            await _studentPaymentSycleRepository.UpdateSycleAsync(
+                student.Id,
+                updateStudentDto.GroupIds
+            );
             await _studentRepository.AttachStudent(student, updateStudentDto.GroupIds);
         }
         return Ok();
     }
-
-
-
 }

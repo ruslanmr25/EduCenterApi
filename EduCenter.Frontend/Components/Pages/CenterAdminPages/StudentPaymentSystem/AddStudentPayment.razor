@@ -1,0 +1,81 @@
+﻿@page "/center-admin/student-payments/add"
+
+
+
+<main class="nxl-container">
+     <div class="nxl-content">
+
+
+          <div class="main-content">
+               <div class="row">
+                    <div class="col-lg-12">
+                         <div class="card stretch stretch-full">
+
+                              <hr class="mt-0">
+                              <div class="card-body general-info">
+
+                                   <EditForm OnValidSubmit="HandleSubmitAsync" FormName="Create-Student" Enhance>
+
+
+                                        <div class="mb-5 d-flex align-items-center justify-content-between">
+                                             <h5 class="fw-bold mb-0 me-4">
+                                                  <span class="fs-20 d-block mb-2">O'quvchi ma'lumotlari:</span>
+                                                  <span class="fs-16 fw-normal text-muted text-truncate-1-line">
+                                                       Quyidagilarning
+                                                       barchasini kiriting
+                                                  </span>
+                                             </h5>
+                                             <button class=" btn btn-primary" type="submit">Saqlash</button>
+                                        </div>
+                                        <div class="row mb-4 align-items-center">
+                                             <div class="col-lg-4">
+                                                  <label for="fullnameInput" class="fw-semibold">Name: </label>
+                                             </div>
+                                             <div class="col-lg-8">
+                                                  <div class="input-group">
+                                                       <div class="input-group-text"><i class="feather-user"></i></div>
+                                                       <InputNumber @bind-Value="CreateStudentPaymentDto.Payed"
+                                                            class="form-control" id="fullnameInput" placeholder="Name">
+                                                       </InputNumber>
+
+                                                  </div>
+                                                  <ValidationMessage class="text-danger"
+                                                       For="@(() => CreateStudentPaymentDto.Payed)"></ValidationMessage>
+
+                                             </div>
+                                        </div>
+
+
+
+
+
+
+                                   </EditForm>
+
+                              </div>
+                         </div>
+                    </div>
+               </div>
+          </div>
+          <!-- [ Main Content ] end -->
+     </div>
+
+
+</main>
+
+
+
+@code
+{
+
+     protected CreateStudentPaymentDto CreateStudentPaymentDto = new()
+     {
+          PaidDate = DateOnly.FromDateTime(DateTime.Now)
+     };
+
+
+     public async Task HandleSubmitAsync()
+     {
+
+     }
+}

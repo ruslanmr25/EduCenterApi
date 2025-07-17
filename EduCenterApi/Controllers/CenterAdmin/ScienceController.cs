@@ -10,9 +10,7 @@ namespace EduCenterApi.Controllers.CenterAdmin;
 [ApiController]
 public class ScienceController : ControllerBase
 {
-
-
-    protected int CenterId = 5;
+    protected int CenterId = 1;
 
     protected readonly IScienceRepository _scienceRepository;
 
@@ -26,30 +24,24 @@ public class ScienceController : ControllerBase
         _mapper = mapper;
     }
 
-
-
     [HttpGet]
     public async Task<IActionResult> Index(int page = 1, int pageSize = 40)
     {
         return Ok(await _scienceRepository.GetAllCenterScienceAsync(CenterId, page, pageSize));
     }
 
-
     [HttpGet("{id}/groups")]
     public async Task<IActionResult> GetGroupByScience(int id)
     {
-
         var sinces = await _scienceRepository.GetAllGroupByScienceAsync(CenterId, id);
 
         // sinces.Items.
         return Ok(sinces);
     }
+
     [HttpPost]
     public async Task<IActionResult> Create(CreateScienceDto scienceDto)
     {
-
-
-       
         var science = _mapper.Map<Since>(scienceDto);
 
         science.CenterId = CenterId;
@@ -61,8 +53,6 @@ public class ScienceController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(int id, UpdateScienceDto scienceDto)
     {
-
-
         var science = await _scienceRepository.GetByIdAsync(id);
         if (science == null)
         {
@@ -72,7 +62,6 @@ public class ScienceController : ControllerBase
         await _scienceRepository.UpdateAsync(science);
         return Ok();
     }
-
 
     [HttpGet("{id}")]
     public async Task<IActionResult> Show(int id)
@@ -86,16 +75,11 @@ public class ScienceController : ControllerBase
         return Ok(science);
     }
 
-
     [HttpDelete("{id}")]
-
     public async Task<IActionResult> Delete(int id)
     {
         await _scienceRepository.DeleteAsync(id);
 
         return Ok();
     }
-
-
-
 }
