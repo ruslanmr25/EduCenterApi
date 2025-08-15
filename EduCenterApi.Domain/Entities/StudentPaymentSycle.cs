@@ -2,16 +2,13 @@
 
 namespace EduCenterApi.Domain.Entities;
 
-
 [Table("student_payment_sycle")]
 public class StudentPaymentSycle
 {
     [Column("id")]
     public int Id { get; set; }
 
-
     public Student Student { get; set; }
-
 
     [Column("student_id")]
     public int StudentId { get; set; }
@@ -36,7 +33,5 @@ public class StudentPaymentSycle
     [Column("group_id")]
     public int GroupId { get; set; }
 
-    public List<StudentPayment> StudentPayments { get; set; }
-
-
+    public List<StudentMonthlyPayment> StudentMonthlyPayment { get; set; }
 }

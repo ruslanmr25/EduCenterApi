@@ -14,10 +14,10 @@ public class StudentPayment
     [Column("payed")]
     public int Payed { get; set; }
 
-    public StudentPaymentSycle StudentPaymentSycle { get; set; }
+    public StudentMonthlyPayment StudentMonthlyPayment { get; set; }
 
-    [Column("student_payment_sycle_id")]
-    public int StudentPaymentSycleId { get; set; }
+    [Column("student_monthly_payment_id")]
+    public int StudentMonthlyPaymentId { get; set; }
 
     [Column("paid_date")]
     public DateOnly PaidDate { get; set; }

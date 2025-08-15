@@ -23,7 +23,7 @@ public class StudentPaymentRepository : IStudentPaymentRepository
     {
         return await _context
             .StudentPaymentSycles.Where(s => s.Id == sycleId)
-            .Include(s => s.StudentPayments)
+            .Include(s => s.StudentMonthlyPayment)
             .FirstOrDefaultAsync();
     }
 
@@ -31,7 +31,7 @@ public class StudentPaymentRepository : IStudentPaymentRepository
     {
         return await _context
             .StudentPaymentSycles.Where(sycle => sycle.StudentId == studentId)
-            .Include(sycle => sycle.StudentPayments)
+            .Include(sycle => sycle.StudentMonthlyPayment)
             .ToListAsync();
     }
 }

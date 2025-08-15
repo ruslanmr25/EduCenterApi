@@ -14,7 +14,7 @@ public class PaymentService
 
         ArgumentNullException.ThrowIfNull(studentPaymentSycle);
 
-        if (studentPaymentSycle.StudentPayments.Count == 0)
+        if (studentPaymentSycle.StudentMonthlyPayment.Count == 0)
         {
             return _pendingStatus;
         }
@@ -22,27 +22,21 @@ public class PaymentService
         return string.Empty;
     }
 
-
     public TimeSpan GetDays(Student student)
     {
-
         DateOnly now = DateOnly.FromDateTime(DateTime.Now);
         StudentPaymentSycle? studentPaymentSycle = student.StudentPaymentSycles.FirstOrDefault();
         ArgumentNullException.ThrowIfNull(studentPaymentSycle);
 
-        if (studentPaymentSycle.StudentPayments.Count == 0)
+        if (studentPaymentSycle.StudentMonthlyPayment.Count == 0)
         {
-
             DateOnly sycleBeginDate = studentPaymentSycle.SycleBeginDate;
-
 
             TimeSpan difference = TimeSpan.FromDays(now.DayNumber - sycleBeginDate.DayNumber);
 
             Console.WriteLine(difference.TotalDays);
         }
 
-
         return new TimeSpan();
-
     }
 }

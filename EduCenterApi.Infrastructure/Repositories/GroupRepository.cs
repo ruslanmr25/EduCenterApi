@@ -6,7 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EduCenterApi.Infrastructure.Repositories;
 
-public class GroupRepository(BaseContext baseContext) : BaseRepository<Group>(baseContext), IGroupRepository
+public class GroupRepository(BaseContext baseContext)
+    : BaseRepository<Group>(baseContext),
+        IGroupRepository
 {
     public override async Task<PagedResult<Group>> GetAllAsync(int page, int pageSize)
     {
@@ -18,8 +20,11 @@ public class GroupRepository(BaseContext baseContext) : BaseRepository<Group>(ba
         return new PagedResult<Group>(result, totalCount, page, pageSize);
     }
 
-
-    public async Task<PagedResult<Group>> GetAllByCenterIdAsync(int centerId, int page, int pageSize)
+    public async Task<PagedResult<Group>> GetAllByCenterIdAsync(
+        int centerId,
+        int page,
+        int pageSize
+    )
     {
         var query = _context.Set<Group>().AsQueryable();
         query = query.Where(x => x.CenterId == centerId);
@@ -30,16 +35,16 @@ public class GroupRepository(BaseContext baseContext) : BaseRepository<Group>(ba
 
     public override async Task<Group?> GetByIdAsync(int id)
     {
-        Group? entity = await _context.Set<Group>()
+        Group? entity = await _context
+            .Set<Group>()
             .Include(g => g.Teacher)
             .Include(g => g.Students)
             .ThenInclude(s => s.StudentPaymentSycles)
-            .ThenInclude(sycle => sycle.StudentPayments)
+            .ThenInclude(sycle => sycle.StudentMonthlyPayment)
             .Include(g => g.Since)
             .Where(g => g.Id == id)
             .FirstOrDefaultAsync();
 
         return entity;
-
     }
 }

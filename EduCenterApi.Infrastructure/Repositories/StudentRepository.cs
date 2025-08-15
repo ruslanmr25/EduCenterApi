@@ -48,7 +48,7 @@ public class StudentRepository : BaseRepository<Student>, IStudentRepository
         return await _context
             .Students.Where(student => student.Id == id)
             .Include(student => student.StudentPaymentSycles)
-            .ThenInclude(sycle => sycle.StudentPayments)
+            .ThenInclude(sycle => sycle.StudentMonthlyPayment)
             .FirstOrDefaultAsync();
     }
 
